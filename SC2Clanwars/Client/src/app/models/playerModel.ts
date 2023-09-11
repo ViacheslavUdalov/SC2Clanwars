@@ -3,5 +3,5 @@
   name: string,
   email: string,
   password: string,
-  race: string
+  race: string,
 }
