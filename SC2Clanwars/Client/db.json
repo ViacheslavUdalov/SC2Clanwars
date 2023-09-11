@@ -1,0 +1,66 @@
+{
+  "players": [
+    {
+      "id": 1,
+      "name": "brotik",
+      "email": "sd@sd.sd",
+      "password": "asdf",
+      "race": "terran"
+    },
+    {
+      "id": 2,
+      "name": "kotik",
+      "email": "sd@sd.sd",
+      "password": "asdf",
+      "race": "zerg"
+    }
+  ],
+  "teams": [
+    {
+      "name": "Jin Air Green Wings",
+      "players" : [
+        {
+          "id": 1,
+          "name": "brotik",
+          "email": "sd@sd.sd",
+          "password": "asdf",
+          "race": "terran"
+        },
+        {
+          "id": 2,
+          "name": "kotik",
+          "email": "sd@sd.sd",
+          "password": "asdf",
+          "race": "zerg"
+        }
+      ]
+    }
+  ],
+  "tournaments": [
+    {
+      "name": "GSL 2023 Season 228",
+      "prizePool": "$100,000",
+      "teams": [
+        {
+          "name": "Jin Air Green Wings",
+          "players" : [
+            {
+              "id": 1,
+              "name": "brotik",
+              "email": "sd@sd.sd",
+              "password": "asdf",
+              "race": "terran"
+            },
+            {
+              "id": 2,
+              "name": "kotik",
+              "email": "sd@sd.sd",
+              "password": "asdf",
+              "race": "zerg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
