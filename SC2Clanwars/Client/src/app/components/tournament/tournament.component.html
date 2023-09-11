@@ -6,8 +6,8 @@
 </head>
 <body>
 <header></header>
-<main><img [src] = "tournament.avatar" style="width: 300px"/>
-  {{tournament.name}}</main>
+<main><img [src] = "tournament?.avatar" style="width: 300px"/>
+  {{tournament?.name}}</main>
 <button
   (click)="KostianchickBrotik = !KostianchickBrotik"
 [ngClass]="{
@@ -17,6 +17,6 @@
 >
   {{KostianchickBrotik ? 'hide' : 'show'}} GOgoGO plAYing TOpiCK
 </button>
-<div *ngIf="KostianchickBrotik">{{tournament.prizePool}}</div>
+<div *ngIf="KostianchickBrotik">{{tournament?.prizePool}}</div>
 </body>
 </html>

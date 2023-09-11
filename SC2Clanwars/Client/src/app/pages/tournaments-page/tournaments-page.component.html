@@ -1,0 +1,11 @@
+<h1>{{title}}</h1>
+
+<input [(ngModel)]="term">
+
+<p *ngIf="loading">Loading</p>
+<div *ngIf="tournaments$ | async as tournaments">
+
+  <app-tournament
+    *ngFor="let tournament of tournaments | filterTournaments : term"  [tournament] = "tournament">
+  </app-tournament>
+</div>
