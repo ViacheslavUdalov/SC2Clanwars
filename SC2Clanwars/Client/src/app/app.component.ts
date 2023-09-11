@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {ITournament} from "./models/Tournament-module";
-import {Tournaments as data} from './data/tournament-API'
+import {ITournament} from "./models/tournamentModel";
+import {Tournaments as data} from './data/tournaments'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

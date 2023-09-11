@@ -1,8 +1,8 @@
-﻿import {ITeams} from "./Teams-model";
+﻿import {ITeam} from "./teamModel";
 
 export interface ITournament {
   name: string,
   prizePool: string,
-  teams: Array<ITeams>,
+  teams: Array<ITeam>,
   avatar: string
 }
