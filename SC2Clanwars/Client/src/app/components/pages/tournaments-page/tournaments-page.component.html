@@ -1,10 +1,10 @@
-<input [(ngModel)]="term">
-<p *ngIf="loading">Loading</p>
+<p *ngIf="loading" class="">Loading</p>
 <div *ngIf="loading">Загрузка...</div>
 <div *ngIf="!loading">
   <ul>
     <li *ngFor="let tournament of tournaments$ | async">
       <h2>{{ tournament.name }}</h2>
+      <img class="TournamentImg" [src]="tournament.avatar"/>
       <p>{{ tournament.prizePool }}</p>
       <!-- Другие поля из модели турнира -->
     </li>
