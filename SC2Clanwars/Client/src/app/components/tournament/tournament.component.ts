@@ -7,4 +7,10 @@ import {ITournament} from "../../models/tournamentModel";
 export class TournamentComponent {
   @Input() tournament: ITournament
   KostianchickBrotik = false
+
+  showAdditionalInfo = false;
+
+  toggleAdditionalInfo() {
+    this.showAdditionalInfo = !this.showAdditionalInfo;
+  }
 }

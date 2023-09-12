@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import {ITournament} from "../models/tournamentModel";
 
@@ -18,14 +18,14 @@ export class SignalrService {
 
     this.hubConnection.on("ReceiveTournament",
       (tournaments: ITournament[]) => {
-this.tournaments = tournaments;
+        this.tournaments = tournaments;
         console.log('Получены турниры:', tournaments);
       })
 
     this.hubConnection
       .start()
       .then(() => {
-          console.log('Соединение с SignalR установлено')
+        console.log('Соединение с SignalR установлено')
         this.hubConnection.invoke("GetTournaments")
         console.log('Connection started')
       })

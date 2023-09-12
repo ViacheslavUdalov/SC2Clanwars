@@ -16,6 +16,5 @@ public class TournamentsHub : Hub
     {
         var tournaments = _tournamentsRepository.GetAllTournaments();
         await Clients.All.SendAsync("ReceiveTournament", tournaments);
-        Console.WriteLine("asdfasdf " + tournaments);
     }
 }
