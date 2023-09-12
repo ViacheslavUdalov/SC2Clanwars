@@ -17,13 +17,9 @@ export class TournamentsPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.signalRService.startConnection();
-    // this.signalRService.addBookingDataListener();
-    // this.startHttpRequest();
   }
   ngOnDestroy() {
     this.signalRService.hubConnection.off("ReceiveTournament");
   }
-  // private startHttpRequest = () => {
-  //   this.bookingService.getBooking("123").subscribe();
-  // }
+
 }

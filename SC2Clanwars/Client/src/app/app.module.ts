@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {TournamentComponent} from "./components/tournament/tournament.component";
@@ -12,6 +11,7 @@ import { TournamentsPageComponent } from './pages/tournaments-page/tournaments-p
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +21,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
     TournamentsPageComponent,
     AboutPageComponent,
     NavigationComponent
+
   ],
   imports: [
     BrowserModule,
