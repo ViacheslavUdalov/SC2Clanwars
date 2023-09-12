@@ -1,27 +1,29 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {ITournament} from "../../models/tournamentModel";
 import {TournamentsService} from "../../services/tournaments.service";
-import {SignalrService} from "../../services/signal-r.service";
+import {SignalrService} from "../../services/signalr.service";
 
 @Component({
   selector: 'app-tournaments-page',
   templateUrl: './tournaments-page.component.html',
   styleUrls: ['./tournaments-page.component.less']
 })
-export class TournamentsPageComponent implements OnInit {
+export class TournamentsPageComponent implements OnInit, OnDestroy {
   tournaments$: BehaviorSubject<ITournament[]>
   loading = false
   term = ""
-  constructor(private tournamentsService: TournamentsService, private signalrService: SignalrService) {
+  constructor(public signalRService: SignalrService) { }
+
+  ngOnInit() {
+    this.signalRService.startConnection();
+    // this.signalRService.addBookingDataListener();
+    // this.startHttpRequest();
   }
-  ngOnInit(): void {
-    this.loading = true
-    // this.tournaments$ = this.tournamentsService.getALL().pipe(
-    //   tap(() => this.loading = false)
-    // )
-    this.signalrService.startConnection();
-    this.signalrService.addTransferChartDataListener();
-    this.loading = false
+  ngOnDestroy() {
+    this.signalRService.hubConnection.off("ReceiveTournament");
   }
+  // private startHttpRequest = () => {
+  //   this.bookingService.getBooking("123").subscribe();
+  // }
 }
