@@ -14,7 +14,7 @@ public class TournamentsHub : Hub
 
     public async Task GetTournaments()
     {
-        var tournaments = _tournamentsRepository.GetAllTournaments();
+        var tournaments = await _tournamentsRepository.GetAllTournaments();
         await Clients.All.SendAsync("ReceiveTournament", tournaments);
     }
 }

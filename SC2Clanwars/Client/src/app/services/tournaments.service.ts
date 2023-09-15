@@ -1,31 +1,32 @@
 ﻿import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {catchError, Observable, tap, throttle, throwError} from "rxjs";
+import {Observable, of, tap, throttle, throwError} from "rxjs";
 import {ITournament} from "../models/tournamentModel";
 import {ErrorService} from "./error.service";
+import {catchError} from 'rxjs/operators';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TournamentsService {
+  private apiURL = "https://localhost/5064/api/tournaments";
+
   constructor(
     private http: HttpClient,
     private errorServices: ErrorService
   ) {
   }
-tournaments: ITournament[] = []
-  getALL(): Observable<ITournament[]> {
-    return this.http.get<ITournament[]>('http://localhost:3000/tournaments', {
-      params: new HttpParams().append('limit', 5)
-    }).pipe(
-      tap(tournaments => this.tournaments = tournaments),
-      catchError(this.errorHandler.bind(this))
-    )
-  }
 
-  private errorHandler(error: HttpErrorResponse) {
-    this.errorServices.handle(error.message)
-    return throwError(() => error.message)
+  tournaments: ITournament[] = []
+
+  createTournament(tournament: ITournament): Observable<ITournament> {
+    return this.http.post<ITournament>(this.apiURL, tournament).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('An error occurred:', error);
+        return of({} as ITournament
+        )
+      })
+    )
   }
 }

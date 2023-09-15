@@ -12,13 +12,16 @@ export class TournamentsPageComponent implements OnInit, OnDestroy {
   tournaments$: BehaviorSubject<ITournament[]> = new BehaviorSubject<ITournament[]>([]);
   loading: boolean = true;
 
-  constructor(public signalRService: SignalrService) {}
-
-  ngOnInit() {
+  constructor(public signalRService: SignalrService) {
     this.signalRService.stopConnection();
     this.signalRService.startConnection();
+  }
+
+  ngOnInit() {
+      // this.signalRService.stopConnection();
+
     this.subscribeToTournaments();
-    this.loading = false
+    // this.loading = false
   }
 
   ngOnDestroy() {
@@ -26,9 +29,9 @@ export class TournamentsPageComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToTournaments() {
-    this.signalRService.hubConnection.on('ReceiveTournament', (tournaments) => {
+    this.signalRService.hubConnection.on('ReceiveTournament', async (tournaments) => {
       this.tournaments$.next(tournaments);
-      this.loading = false
+      // this.loading = false
       // console.log('Получены турниры через SignalR:', tournaments);
     });
   }

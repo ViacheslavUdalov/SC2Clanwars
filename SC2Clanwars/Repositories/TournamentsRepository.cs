@@ -16,9 +16,9 @@ public class TournamentsRepository
         _tournamentsMapper = tournamentsMapper;
     }
 
-    public List<TournamentModel> GetAllTournaments()
+    public async Task<List<TournamentModel>>  GetAllTournaments()
     {
-        var tournamentsDbModels = _tournamentCollection.Find(_ => true).ToList();
+        var tournamentsDbModels = await _tournamentCollection.Find(_ => true).ToListAsync();
         var tournaments = tournamentsDbModels.Select(_tournamentsMapper.MapTournamentModel).ToList();
         return tournaments;
     }

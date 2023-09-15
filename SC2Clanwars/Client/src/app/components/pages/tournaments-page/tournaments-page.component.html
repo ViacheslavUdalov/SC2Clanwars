@@ -1,6 +1,6 @@
-<p *ngIf="loading" class="">Loading</p>
-<div *ngIf="loading">Загрузка...</div>
-<div *ngIf="!loading">
+<!--<p *ngIf="loading" class="">Loading</p>-->
+<!--<div *ngIf="loading">Загрузка...</div>-->
+<div>
   <ul>
     <li *ngFor="let tournament of tournaments$ | async">
       <h2>{{ tournament.name }}</h2>

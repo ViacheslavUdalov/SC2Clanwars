@@ -7,9 +7,8 @@ export class SignalrService {
   public hubConnection: signalR.HubConnection;
 
   public startConnection = () => {
-
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:44311/tournaments-hub', {
+      .withUrl('http://localhost:5034/tournaments-hub', {
         transport: signalR.HttpTransportType.WebSockets
       })
       .build();
