@@ -6,4 +6,5 @@ namespace SC2Clanwars.Mappers;
 public interface ITournamentsMapper
 {
     public TournamentModel MapTournamentModel(TournamentDbModel tournamentDbModel);
+    public TournamentDbModel MapTournamentDbModel(TournamentModel tournamentModel);
 }
