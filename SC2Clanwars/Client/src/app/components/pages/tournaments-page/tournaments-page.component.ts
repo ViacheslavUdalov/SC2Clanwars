@@ -13,26 +13,25 @@ export class TournamentsPageComponent implements OnInit, OnDestroy {
   loading: boolean = true;
 
   constructor(public signalRService: SignalrService) {
-    this.signalRService.stopConnection();
-    this.signalRService.startConnection();
+    this.signalRService.startConnection()
   }
-
   ngOnInit() {
-      // this.signalRService.stopConnection();
-
-    this.subscribeToTournaments();
-    // this.loading = false
+    this.signalRService.onReceiveTournament((tournaments) => {
+      this.tournaments$ = tournaments;
+    });
   }
-
   ngOnDestroy() {
     this.signalRService.stopConnection();
   }
-
   private subscribeToTournaments() {
-    this.signalRService.hubConnection.on('ReceiveTournament', async (tournaments) => {
+    this.signalRService.hubConnection.on('ReceiveTournament', async (tournaments: ITournament[]) => {
       this.tournaments$.next(tournaments);
-      // this.loading = false
-      // console.log('Получены турниры через SignalR:', tournaments);
     });
+  };
+  private SendRequestToServer() {
+    this.signalRService.hubConnection.invoke("GetTournaments").then((result) => {
+      console.log(result);
+    })
+      .catch(err => console.error("Ошибка при отправке запроса на сервер" + err));
   }
 }

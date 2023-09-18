@@ -24,5 +24,5 @@ var app = builder.Build();
 app.MapGet("/", () => "Hello World!");
 app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
-app.MapHub<TournamentsHub>("tournaments-hub");
+app.MapHub<TournamentsHub>("/tournaments-hub");
 app.Run();

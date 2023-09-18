@@ -24,7 +24,7 @@ public class Tournaments_controllers : ControllerBase
     _tournamentsMapper = tournamentsMapper;
   }
 
-  [HttpPost("tournaments")]
+  [HttpPost]
   public async Task<IActionResult> CreateTournament(TournamentModel tournament)
   {
     var tournamentModel = _tournamentsMapper.MapTournamentDbModel(tournament);
