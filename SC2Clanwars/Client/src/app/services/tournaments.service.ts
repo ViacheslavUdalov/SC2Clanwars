@@ -10,7 +10,7 @@ import {catchError} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TournamentsService {
-  private apiURL = "https://localhost/5064/api/tournaments";
+  private apiURL = "http://localhost/5064/api/tournaments";
 
   constructor(
     private http: HttpClient,
@@ -20,7 +20,7 @@ export class TournamentsService {
 
   tournaments: ITournament[] = []
 
-  createTournament(tournament: ITournament): Observable<ITournament> {
+ createTournament(tournament: ITournament): Observable<ITournament> {
     return this.http.post<ITournament>(this.apiURL, tournament).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('An error occurred:', error);

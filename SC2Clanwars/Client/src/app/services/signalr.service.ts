@@ -18,6 +18,10 @@ export class SignalrService {
     this.hubConnection
       .start()
       .then(() => {
+        this.hubConnection.invoke("GetTournaments").then((res) => console.log(res)).catch(err => console.error(err));
+        // this.hubConnection.on('ReceiveTournament', async (tournaments: ITournament[]) => {
+        //   this.tournaments$.next(tournaments);
+        // });
         console.log('Соединение с SignalR установлено')
       })
       .catch(err => console.log('Ошибка в установке соединения ' + err))
@@ -26,7 +30,7 @@ export class SignalrService {
     this.hubConnection.on('ReceiveTournament', (tournaments) => {
       callback(tournaments);
     });
-  }
+  };
   public stopConnection = () => {
     if (this.hubConnection) {
       this.hubConnection.stop();
