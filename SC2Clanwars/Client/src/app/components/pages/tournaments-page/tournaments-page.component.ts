@@ -15,22 +15,21 @@ export class TournamentsPageComponent implements OnInit, OnDestroy {
   public hubConnection: signalR.HubConnection;
   private routerSubscription: Subscription;
   constructor(public signalrService: SignalrService, private router: Router) {
-  this.routerSubscription =  this.router.events.subscribe(event => {
+    this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.signalrService.stopConnection();
-      } else if (event instanceof NavigationEnd) {
-        this.signalrService.startConnection();
+        this.signalrService.stopConnection(); // Отключение при смене роута
       }
     });
   }
   ngOnInit() {
       this.signalrService.startConnection();
+    this.subscribeToTournaments();
     // this.SendRequestToServer();
-      this.subscribeToTournaments();
+
   }
   ngOnDestroy() {
     // this.signalrService.stopConnection();
-    this.routerSubscription.unsubscribe();
+    this.routerSubscription?.unsubscribe();
   }
 
   private subscribeToTournaments() {
@@ -38,10 +37,10 @@ export class TournamentsPageComponent implements OnInit, OnDestroy {
       this.tournaments$.next(tournaments);
     });
   };
-//   private SendRequestToServer() {
-//     this.signalRService.hubConnection.invoke("GetTournaments").then((result) => {
-//       console.log(result);
-//     })
-//       .catch(err => console.error("Ошибка при отправке запроса на сервер" + err));
-//   }
+  private SendRequestToServer() {
+    this.signalrService.hubConnection.invoke("GetTournaments").then((result) => {
+      console.log(result);
+    })
+      .catch(err => console.error("Ошибка при отправке запроса на сервер" + err));
+  }
 }

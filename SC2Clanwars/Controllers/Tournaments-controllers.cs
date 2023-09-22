@@ -20,7 +20,7 @@ public class Tournaments_controllers : ControllerBase
     ITournamentsMapper tournamentsMapper)
   {
     _hubContext = hubContext;
-    _tournamentsCollection = database.GetCollection<TournamentDbModel>("tournaments");
+    _tournamentsCollection = database.GetCollection<TournamentDbModel>("Sc2ClanWars");
     _tournamentsMapper = tournamentsMapper;
   }
 
@@ -30,8 +30,6 @@ public class Tournaments_controllers : ControllerBase
     var tournamentModel = _tournamentsMapper.MapTournamentDbModel(tournament);
     await _tournamentsCollection.InsertOneAsync(tournamentModel);
     await _hubContext.Clients.All.SendAsync("ReceiveTournaments", tournament);
-    
-    return Ok(tournament);
-  }
-  
+      return Ok(tournament);
+    }
 }

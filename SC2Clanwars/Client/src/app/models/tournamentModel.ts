@@ -2,7 +2,7 @@
 
 export interface ITournament {
   name: string,
-  prizePool: string,
-  teams: Array<ITeam>,
-  avatar: string
+  prizePool?: string,
+  teams?: Array<ITeam>,
+  avatar?: string
 }

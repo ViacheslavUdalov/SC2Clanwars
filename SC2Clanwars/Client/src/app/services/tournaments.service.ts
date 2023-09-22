@@ -10,7 +10,7 @@ import {catchError} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TournamentsService {
-  private apiURL = "http://localhost/5064/api/tournaments";
+  private apiURL = "http://localhost:5034/api/tournaments";
 
   constructor(
     private http: HttpClient,
