@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using SC2Clanwars.Models;
+﻿using Microsoft.AspNetCore.SignalR;
 using SC2Clanwars.Repositories;
 
 namespace SC2Clanwars.Hubs;

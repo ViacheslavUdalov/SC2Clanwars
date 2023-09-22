@@ -11,7 +11,7 @@ export class SignalrService {
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5034/tournaments-hub', {
+      .withUrl('http://localhost:5034/tournament-hub', {
         transport: signalR.HttpTransportType.WebSockets
       })
       .build();
@@ -32,9 +32,11 @@ export class SignalrService {
     });
   };
   public stopConnection = () => {
-    if (this.hubConnection) {
-      this.hubConnection.stop();
-      console.log('Соединение с SingalR разорвано')
+    // if (this.hubConnection && this.hubConnection.state === HubConnectionState.Connected) {
+      if (this.hubConnection) {
+        this.hubConnection.stop();
+        console.log('Соединение с SingalR разорвано')
+      // }
     }
   }
 }
