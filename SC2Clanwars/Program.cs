@@ -1,10 +1,3 @@
-using SC2Clanwars.Configuration;
-using SC2Clanwars.Hubs;
-using SC2Clanwars.Mappers;
-using SC2Clanwars.Repositories;
-//
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 
 namespace YourNamespace
 {

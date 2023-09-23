@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {BehaviorSubject, Subscription} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {ITournament} from "../../../models/tournamentModel";
-import * as signalR from "@aspnet/signalr";
-import {SignalrService} from "../../../services/signalr.service";
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import {TournamentsService} from "../../../services/tournaments.service";
 @Component({
   selector: 'app-tournaments-page',
   templateUrl: './tournaments-page.component.html',
@@ -12,35 +11,14 @@ import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 export class TournamentsPageComponent implements OnInit, OnDestroy {
   tournaments$: BehaviorSubject<ITournament[]> = new BehaviorSubject<ITournament[]>([]);
   loading: boolean = true;
-  public hubConnection: signalR.HubConnection;
-  private routerSubscription: Subscription;
-  constructor(public signalrService: SignalrService, private router: Router) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        this.signalrService.stopConnection(); // Отключение при смене роута
-      }
-    });
-  }
+  constructor(private router: Router, private tournamentService : TournamentsService) {
+}
   ngOnInit() {
-      this.signalrService.startConnection();
-    this.subscribeToTournaments();
-    // this.SendRequestToServer();
-
-  }
-  ngOnDestroy() {
-    // this.signalrService.stopConnection();
-    this.routerSubscription?.unsubscribe();
-  }
-
-  private subscribeToTournaments() {
-    this.signalrService.hubConnection.on('ReceiveTournament', async (tournaments: ITournament[]) => {
+    this.tournamentService.getTournaments().subscribe((tournaments: ITournament[]) => {
       this.tournaments$.next(tournaments);
     });
-  };
-  private SendRequestToServer() {
-    this.signalrService.hubConnection.invoke("GetTournaments").then((result) => {
-      console.log(result);
-    })
-      .catch(err => console.error("Ошибка при отправке запроса на сервер" + err));
   }
+  ngOnDestroy() {
+  }
+
 }

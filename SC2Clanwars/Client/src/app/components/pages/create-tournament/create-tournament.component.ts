@@ -9,17 +9,20 @@ import {TournamentsService} from "../../../services/tournaments.service";
   styleUrls: ['./create-tournament.component.less']
 })
 export class CreateTournamentComponent {
-tournament: ITournament = {
-  name: '',
-  prizePool: '',
-  teams: [],
-  avatar: ''
-};
+  tournament: ITournament = {
+    name: '',
+    prizePool: '',
+    avatar: '',
+    teams: []
+  };
 constructor(private tournamentService: TournamentsService, private router: Router) {}
   onSubmit() {
   this.tournamentService.createTournament(this.tournament)
-    .subscribe((result) => {
-// this.router.navigate(['tournaments'])
-    })
+    .subscribe(() => {
+        // this.tournament= tournament;
+      // tournament = this.tournament;
+      //   console.log(tournament)
+        }
+    )
   }
 }

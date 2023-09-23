@@ -1,17 +1,23 @@
 <form (submit)="onSubmit()">
   <div class="form-group">
     <label for="name">Название турнира:</label>
-    <input type="text" id="name" name="name" [(ngModel)]="tournament.name" required>
+    <input type="text" id="name" name="name"
+           [(ngModel)]="tournament.name"
+           required>
   </div>
 
   <div class="form-group">
     <label for="prizePool">Призовой фонд:</label>
-    <input type="text" id="prizePool" name="prizePool" [(ngModel)]="tournament.prizePool">
+    <input type="text" id="prizePool" name="prizePool"
+           [(ngModel)]="tournament.prizePool"
+    >
   </div>
 
   <div class="form-group">
     <label for="avatar">Ссылка на аватар:</label>
-    <input type="text" id="avatar" name="avatar" [(ngModel)]="tournament.avatar">
+    <input type="text" id="avatar" name="avatar"
+           [(ngModel)]="tournament.avatar"
+    >
   </div>
 
 <!--  <div class="form-group">-->

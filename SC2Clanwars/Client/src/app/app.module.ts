@@ -13,7 +13,6 @@ import { UsersPageComponent } from './components/pages/users-page/users-page.com
 import { LoadingPipe } from './components/Helpers/loading.pipe';
 import { CreateTournamentComponent } from './components/pages/create-tournament/create-tournament.component';
 import {TournamentsPageComponent} from "./components/pages/tournaments-page/tournaments-page.component";
-import {SignalrService} from "./services/signalr.service";
 
 @NgModule({
   declarations: [
@@ -35,7 +34,7 @@ import {SignalrService} from "./services/signalr.service";
     HttpClientModule,
     FormsModule
   ],
-  providers: [SignalrService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

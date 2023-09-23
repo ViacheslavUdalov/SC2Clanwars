@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <Folder Include="Client\src\app\Helpers\" />
+      <Folder Include="Hubs\" />
       <Folder Include="interfaces\" />
     </ItemGroup>
 
