@@ -13,6 +13,7 @@ import { UsersPageComponent } from './components/pages/users-page/users-page.com
 import { LoadingPipe } from './components/Helpers/loading.pipe';
 import { CreateTournamentComponent } from './components/pages/create-tournament/create-tournament.component';
 import {TournamentsPageComponent} from "./components/pages/tournaments-page/tournaments-page.component";
+import { TournamentPageComponent } from './components/pages/tournament-page/tournament-page.component';
 
 @NgModule({
   declarations: [
@@ -21,11 +22,13 @@ import {TournamentsPageComponent} from "./components/pages/tournaments-page/tour
     AboutPageComponent,
     NavigationComponent,
   TournamentsPageComponent,
+    TournamentPageComponent,
   TeamsPageComponent,
     HomePageComponent,
     UsersPageComponent,
     LoadingPipe,
-    CreateTournamentComponent
+    CreateTournamentComponent,
+    TournamentPageComponent
 
   ],
   imports: [

@@ -10,6 +10,7 @@ import {TournamentsService} from "../../../services/tournaments.service";
 })
 export class CreateTournamentComponent {
   tournament: ITournament = {
+    id: '',
     name: '',
     prizePool: '',
     avatar: '',
@@ -18,11 +19,10 @@ export class CreateTournamentComponent {
 constructor(private tournamentService: TournamentsService, private router: Router) {}
   onSubmit() {
   this.tournamentService.createTournament(this.tournament)
-    .subscribe(() => {
-        // this.tournament= tournament;
-      // tournament = this.tournament;
-      //   console.log(tournament)
-        }
+    .subscribe((createdTournament: ITournament) => {
+      this.tournament = createdTournament;
+      this.router.navigate([`/tournaments/${createdTournament.id}` ])
+      }
     )
   }
 }

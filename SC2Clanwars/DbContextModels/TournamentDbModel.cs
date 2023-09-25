@@ -7,7 +7,9 @@ namespace SC2Clanwars.DbContextModels;
 public class TournamentDbModel
 {
     [BsonId]
-    public ObjectId Id { get; set; }
+    [BsonRepresentation(BsonType.ObjectId)]
+
+    public string? Id { get; set; }
 
     [BsonElement("Name")]
     public string Name { get; set; }

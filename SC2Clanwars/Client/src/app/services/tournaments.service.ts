@@ -1,6 +1,6 @@
-﻿import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
+﻿import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {BehaviorSubject, catchError, Observable, of, tap, throttle, throwError} from "rxjs";
+import {catchError, Observable, of } from "rxjs";
 import {ITournament} from "../models/tournamentModel";
 
 
@@ -18,6 +18,9 @@ export class TournamentsService {
   tournaments: ITournament[] = [];
 getTournaments(): Observable<ITournament[]> {
     return this.http.get<ITournament[]>(this.apiURL);
+}
+getOneTournament(_id: string) : Observable<ITournament>  {
+  return this.http.get<ITournament>(`${this.apiURL}/${_id}`)
 }
   createTournament(tournament: ITournament): Observable<ITournament> {
     return this.http.post<ITournament>(`${this.apiURL}/create`, tournament)

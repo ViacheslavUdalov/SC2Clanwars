@@ -6,6 +6,7 @@ import {HomePageComponent} from "./components/pages/home-page/home-page.componen
 import {UsersPageComponent} from "./components/pages/users-page/users-page.component";
 import {TeamsPageComponent} from "./components/pages/teams-page/teams-page.component";
 import {CreateTournamentComponent} from "./components/pages/create-tournament/create-tournament.component";
+import {TournamentPageComponent} from "./components/pages/tournament-page/tournament-page.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'about', component: AboutPageComponent},
   {path: 'users', component: UsersPageComponent},
   {path: 'teams', component: TeamsPageComponent},
-  {path: 'create-tournament', component: CreateTournamentComponent}
+  {path: 'create-tournament', component: CreateTournamentComponent},
+  {path: 'tournaments/:id', component: TournamentPageComponent}
 ];
 
 @NgModule({

@@ -2,11 +2,10 @@
 <!--<div *ngIf="loading">Загрузка...</div>-->
 <div>
   <ul>
-    <li *ngFor="let tournament of tournaments$ | async">
-      <h2>{{ tournament.name }}</h2>
+    <li *ngFor="let tournament of tournaments">
+      <h2><a [routerLink]="['/tournaments', tournament.id]">{{ tournament.name }}</a></h2>
       <img class="TournamentImg" [src]="tournament.avatar"/>
       <p>{{ tournament.prizePool }}</p>
-      <!-- Другие поля из модели турнира -->
     </li>
   </ul>
 </div>

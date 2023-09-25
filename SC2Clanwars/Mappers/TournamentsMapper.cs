@@ -20,7 +20,7 @@ public class TournamentsMapper : ITournamentsMapper
     {
         return new TournamentDbModel
         {
-            Id = ObjectId.GenerateNewId(),
+            Id =  ObjectId.GenerateNewId().ToString(),
             Name = tournamentModel.Name,
             Teams = tournamentModel.Teams,
             PrizePool = tournamentModel.PrizePool,
