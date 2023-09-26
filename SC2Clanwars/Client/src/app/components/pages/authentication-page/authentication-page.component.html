@@ -1,0 +1,23 @@
+<form (submit)="onSubmit()">
+  <div class="form-group">
+    <label for="Name">Название турнира:</label>
+    <input type="text" id="name" name="Name"
+           [(ngModel)]="User.Name"
+           required>
+  </div>
+
+  <div class="form-group">
+    <label for="Email">Email:</label>
+    <input type="text" id="Email" name="Email"
+           [(ngModel)]="User.Email"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="Password">Пароль: </label>
+    <input type="text" id="Password" name="Password"
+           [(ngModel)]="User.Password"
+    >
+  </div>
+  <button type="submit">Зарегистрироваться!</button>
+</form>

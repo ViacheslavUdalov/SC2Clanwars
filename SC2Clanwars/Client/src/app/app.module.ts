@@ -14,6 +14,7 @@ import { LoadingPipe } from './components/Helpers/loading.pipe';
 import { CreateTournamentComponent } from './components/pages/create-tournament/create-tournament.component';
 import {TournamentsPageComponent} from "./components/pages/tournaments-page/tournaments-page.component";
 import { TournamentPageComponent } from './components/pages/tournament-page/tournament-page.component';
+import { AuthenticationPageComponent } from './components/pages/authentication-page/authentication-page.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TournamentPageComponent } from './components/pages/tournament-page/tour
     UsersPageComponent,
     LoadingPipe,
     CreateTournamentComponent,
-    TournamentPageComponent
+    TournamentPageComponent,
+    AuthenticationPageComponent
 
   ],
   imports: [

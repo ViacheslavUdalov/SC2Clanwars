@@ -1,9 +1,11 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDbGenericRepository.Attributes;
 using SC2Clanwars.Models;
 
 namespace SC2Clanwars.DbContextModels;
 
+[CollectionName("Tournaments")]
 public class TournamentDbModel
 {
     [BsonId]

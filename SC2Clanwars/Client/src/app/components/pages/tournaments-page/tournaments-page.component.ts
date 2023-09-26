@@ -13,7 +13,7 @@ export class TournamentsPageComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private tournamentService : TournamentsService) {
 }
   ngOnInit() {
-     this.tournamentService.getTournaments().subscribe((tournaments) => {
+     this.tournamentService.getTournaments().subscribe((tournaments: ITournament[]) => {
        this.tournaments = tournaments;
        console.log(this.tournaments)
      })
