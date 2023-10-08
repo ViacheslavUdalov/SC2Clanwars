@@ -15,6 +15,7 @@ const routes: Routes = [
   {path: 'users', component: UsersPageComponent},
   {path: 'teams', component: TeamsPageComponent},
   {path: 'create-tournament', component: CreateTournamentComponent},
+  {path: 'create-tournament/:id', component: CreateTournamentComponent},
   {path: 'tournaments/:id', component: TournamentPageComponent}
 ];
 

@@ -10,23 +10,27 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class TournamentPageComponent implements OnInit, OnDestroy{
 tournament: ITournament;
-
+// id : string | null = null;
   constructor(
     private tournamentsService : TournamentsService,
   private route : ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const id = params['id']
+    this.route.paramMap.subscribe(params => {
+       const id = params.get('id');
       console.log(id)
-   this.tournamentsService.getOneTournament(id).subscribe(tournaments => {
-     this.tournament = tournaments;
-   })
+      if (id) {
+        this.tournamentsService.getOneTournament(id).subscribe(tournaments => {
+          this.tournament = tournaments;
+        })
+      }
     })
 
   }
-
+RemoveTournament() {
+    this.tournamentsService.deleteTournament(this.tournament.id)
+}
   ngOnDestroy() {
   }
 }

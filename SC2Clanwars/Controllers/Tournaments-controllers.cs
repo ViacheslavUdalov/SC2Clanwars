@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Amazon.SecurityToken.Model;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.DataProtection.Internal;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -52,7 +54,7 @@ public class TournamentsController : ControllerBase
     {
       return BadRequest();
     }
-    var tournament =  await _tournamentsService.GetOneTournamentService(id);
+    var tournament =  await _tournamentsRepository.GetOneTournament(id);
     if (tournament is null)
     {
       return NotFound();
@@ -60,4 +62,28 @@ public class TournamentsController : ControllerBase
 
     return tournament;
   }
-}
+
+  [HttpDelete("{id}")]
+  public async Task<ActionResult<TournamentDbModel>> RemoveOne(string id)
+  {
+    var tournament = _tournamentsRepository.GetOneTournament(id);
+    if (tournament is null)
+    {
+      return NotFound();
+    }
+    await _tournamentsRepository.DeleteOneTournament(id);
+    return NoContent();
+  }
+
+  [HttpPut("update/{id}")]
+  public async Task<ActionResult<TournamentDbModel>> UpdateOne(string id, TournamentDbModel tournament)
+  {
+    var Tournament = _tournamentsRepository.GetOneTournament(id);
+    if (Tournament is null)
+    {
+      return NotFound();  
+    }
+    await _tournamentsRepository.UpdateTournament(id, tournament);
+    return tournament;
+  }
+ }

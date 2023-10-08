@@ -32,4 +32,22 @@ getOneTournament(_id: string) : Observable<ITournament>  {
       })
     )
   }
+  updateTournament(id: string, tournament: ITournament): Observable<ITournament> {
+  return this.http.put<ITournament>(`${this.apiURL}/update/${tournament.id}`, tournament).pipe(
+    catchError((error: HttpErrorResponse) => {
+      console.error('An error occurred:', error);
+      return of({} as ITournament
+      )
+    })
+  )
+  }
+  deleteTournament(id: string) {
+  return this.http.delete(`${this.apiURL}/${id}`).pipe(
+    catchError((error: HttpErrorResponse) => {
+      console.error('An error occurred:', error);
+      return of({} as ITournament
+      );
+    })
+  )
+  }
 }

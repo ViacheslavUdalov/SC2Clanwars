@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using Amazon.SecurityToken.Model;
+using Microsoft.AspNetCore.Http.HttpResults;
+using MongoDB.Driver;
 using SC2Clanwars.DbContextModels;
 using SC2Clanwars.Mappers;
 using SC2Clanwars.Models;
@@ -23,10 +25,27 @@ public class TournamentsRepository
         var tournaments = tournamentsDbModels.Select(_tournamentsMapper.MapTournamentModel).ToList();
         return tournaments;
     }
-    public async Task<TournamentDbModel> CreateTournament(TournamentModel tournament)
+
+    public async Task<TournamentDbModel> GetOneTournament(string id)
     {
-        var tournamentModel = _tournamentsMapper.MapTournamentDbModel(tournament);
-        await _tournamentCollection.InsertOneAsync(tournamentModel);
-        return tournamentModel;
+       var tournament = await _tournamentCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+       return tournament;
+    }
+    public async Task<TournamentDbModel> CreateTournament(TournamentDbModel tournament)
+    {
+        // var tournamentModel = _tournamentsMapper.MapTournamentDbModel(tournament);
+        await _tournamentCollection.InsertOneAsync(tournament);
+        return tournament;
+    }
+
+    public async Task<TournamentDbModel> UpdateTournament(string id, TournamentDbModel tournament)
+    {
+        await _tournamentCollection.ReplaceOneAsync(x => x.Id == id, tournament);
+        return tournament;
+    }
+
+    public async Task DeleteOneTournament(string id)
+    {
+        await _tournamentCollection.DeleteOneAsync(id);
     }
 }
