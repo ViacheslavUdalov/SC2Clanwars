@@ -13,7 +13,8 @@ tournament: ITournament;
 // id : string | null = null;
   constructor(
     private tournamentsService : TournamentsService,
-  private route : ActivatedRoute
+  private route : ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -28,8 +29,11 @@ tournament: ITournament;
     })
 
   }
-RemoveTournament() {
-    this.tournamentsService.deleteTournament(this.tournament.id)
+ RemoveTournament(id: string) {
+    this.tournamentsService.deleteTournament(id).subscribe(() => {
+      this.router.navigate([`/tournaments`]);
+    })
+
 }
   ngOnDestroy() {
   }

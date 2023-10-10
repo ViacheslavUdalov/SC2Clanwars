@@ -2,5 +2,5 @@
   <h2>{{tournament.name}}</h2>
   <span>{{tournament.prizePool }}</span>
   <a [routerLink]="['/create-tournament/', tournament.id]">Обновить турнир</a>
-  <button (click)="RemoveTournament()">Удалить</button>
+  <button (click)="RemoveTournament(tournament.id)">Удалить</button>
 </div>

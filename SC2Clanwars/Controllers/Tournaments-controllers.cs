@@ -1,9 +1,4 @@
-﻿using Amazon.SecurityToken.Model;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.DataProtection.Internal;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
+﻿using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using SC2Clanwars.DbContextModels;
 using SC2Clanwars.Mappers;
@@ -33,10 +28,16 @@ public class TournamentsController : ControllerBase
     _tournamentsService = tournamentsService;
   }
   [HttpPost("create")]
-  public async Task<TournamentDbModel> CreateTournamentRepository(TournamentModel tournament)
+  [ProducesResponseType(StatusCodes.Status404NotFound)]
+  [ProducesResponseType(StatusCodes.Status200OK)]
+  public async Task<ActionResult<TournamentDbModel>> CreateTournamentRepository(TournamentModel tournament)
   {
     var tournamentModel = _tournamentsMapper.MapTournamentDbModel(tournament);
     await _tournamentCollection.InsertOneAsync(tournamentModel);
+    if (tournamentModel is null)
+    {
+      return NotFound();
+    }
     return tournamentModel;
   }
 
@@ -48,6 +49,9 @@ public class TournamentsController : ControllerBase
   }
 
   [HttpGet("{id}")]
+  [ProducesResponseType(StatusCodes.Status400BadRequest)]
+  [ProducesResponseType(StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status404NotFound)]
   public async Task<ActionResult<TournamentDbModel>> GetOneTournament(string id)
   {
     if (string.IsNullOrEmpty(id))
@@ -63,7 +67,10 @@ public class TournamentsController : ControllerBase
     return tournament;
   }
 
-  [HttpDelete("{id}")]
+  [HttpDelete("delete/{id}")]
+  [ProducesResponseType(StatusCodes.Status404NotFound)]
+  [ProducesResponseType(StatusCodes.Status204NoContent)]
+  [ProducesResponseType(StatusCodes.Status200OK)]
   public async Task<ActionResult<TournamentDbModel>> RemoveOne(string id)
   {
     var tournament = _tournamentsRepository.GetOneTournament(id);
@@ -72,10 +79,13 @@ public class TournamentsController : ControllerBase
       return NotFound();
     }
     await _tournamentsRepository.DeleteOneTournament(id);
-    return NoContent();
+    return Ok();
   }
 
   [HttpPut("update/{id}")]
+  [ProducesResponseType(StatusCodes.Status400BadRequest)]
+  [ProducesResponseType(StatusCodes.Status404NotFound)]
+  [ProducesResponseType(StatusCodes.Status200OK)]
   public async Task<ActionResult<TournamentDbModel>> UpdateOne(string id, TournamentDbModel tournament)
   {
     var Tournament = _tournamentsRepository.GetOneTournament(id);

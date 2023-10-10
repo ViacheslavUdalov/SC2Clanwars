@@ -42,12 +42,13 @@ getOneTournament(_id: string) : Observable<ITournament>  {
   )
   }
   deleteTournament(id: string) {
-  return this.http.delete(`${this.apiURL}/${id}`).pipe(
-    catchError((error: HttpErrorResponse) => {
-      console.error('An error occurred:', error);
-      return of({} as ITournament
-      );
-    })
-  )
+  return this.http.delete(`${this.apiURL}/delete/${id}`)
+    // .pipe(
+    // catchError((error: HttpErrorResponse) => {
+    //   console.error('An error occurred:', error);
+    //   return of({} as ITournament
+    //   );
+    // })
+  // )
   }
 }

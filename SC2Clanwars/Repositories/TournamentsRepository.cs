@@ -44,8 +44,10 @@ public class TournamentsRepository
         return tournament;
     }
 
-    public async Task DeleteOneTournament(string id)
+    public async Task<bool> DeleteOneTournament(string id)
     {
-        await _tournamentCollection.DeleteOneAsync(id);
+        var filter = Builders<TournamentDbModel>.Filter.Eq("_id", id);
+        await _tournamentCollection.DeleteOneAsync(filter);
+         return true;
     }
 }
