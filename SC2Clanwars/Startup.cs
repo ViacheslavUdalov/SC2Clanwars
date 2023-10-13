@@ -1,4 +1,10 @@
-﻿using SC2Clanwars.Configuration;
+﻿using System.Text;
+using AspNetCore.Identity.MongoDbCore.Extensions;
+using AspNetCore.Identity.MongoDbCore.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using SC2Clanwars.Configuration;
 using SC2Clanwars.DbContextModels;
 using SC2Clanwars.Mappers;
 using SC2Clanwars.Repositories;
@@ -19,14 +25,61 @@ namespace SC2Clanwars
         {
             services.AddSignalR();
             services.AddControllers();
-            services.AddMongoDbDependencies("mongodb+srv://outline:zxcv1234@outlinevpn.6qztdyi.mongodb.net/", "Sc2ClanWars");
+            services.AddMongoDbDependencies("mongodb+srv://outline:zxcv1234@outlinevpn.6qztdyi.mongodb.net/",
+                "Sc2ClanWars");
             services.AddScoped<TournamentsRepository>();
             services.AddScoped<ITournamentsMapper, TournamentsMapper>();
             services.AddScoped<TournamentsService>();
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
-                    "mongodb+srv://outline:zxcv1234@outlinevpn.6qztdyi.mongodb.net/", "Sc2ClanWars"
-                    );
+
+            var mongoDbIdentityConfig = new MongoDbIdentityConfiguration
+            {
+                MongoDbSettings = new MongoDbSettings
+                {
+                    ConnectionString = "",
+                    DatabaseName = "Sc2ClanWars"
+                },
+                IdentityOptionsAction = options =>
+                {
+                    // Password Option
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = true;
+
+                    // lockout
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                    options.Lockout.MaxFailedAccessAttempts = 5;
+
+                    // Required email
+                    options.User.RequireUniqueEmail = true;
+                }
+            };
+            services.ConfigureMongoDbIdentity<ApplicationUser, ApplicationRole, Guid>(mongoDbIdentityConfig)
+                .AddUserManager<UserManager<ApplicationUser>>()
+                .AddSignInManager<SignInManager<ApplicationUser>>()
+                .AddRoleManager<RoleManager<ApplicationRole>>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = true;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = "http://localhost/5000",
+                    ValidAudience = "http://localhost/5000",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1swek3u4uo2u4a6e")),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder => builder
@@ -34,8 +87,7 @@ namespace SC2Clanwars
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
-                
-                    );
+                );
             });
         }
 
@@ -45,16 +97,14 @@ namespace SC2Clanwars
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseCors("CorsPolicy");
-            
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-          
+
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
-        
     }
 }

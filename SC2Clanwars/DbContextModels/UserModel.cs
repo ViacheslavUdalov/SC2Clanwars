@@ -4,7 +4,8 @@ namespace SC2Clanwars.DbContextModels;
 
 public class UserModel
 {
-    [Required] public string Name { get; set; }
+    [Required]
+    public string Name { get; set; }
 
     [Required]
     [EmailAddress(ErrorMessage = "Invalid Email")]
