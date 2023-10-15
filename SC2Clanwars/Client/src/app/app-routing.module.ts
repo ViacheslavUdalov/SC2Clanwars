@@ -7,6 +7,7 @@ import {UsersPageComponent} from "./components/pages/users-page/users-page.compo
 import {TeamsPageComponent} from "./components/pages/teams-page/teams-page.component";
 import {CreateTournamentComponent} from "./components/pages/create-tournament/create-tournament.component";
 import {TournamentPageComponent} from "./components/pages/tournament-page/tournament-page.component";
+import {AuthenticationPageComponent} from "./components/pages/authentication-page/authentication-page.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -16,7 +17,10 @@ const routes: Routes = [
   {path: 'teams', component: TeamsPageComponent},
   {path: 'create-tournament', component: CreateTournamentComponent},
   {path: 'create-tournament/:id', component: CreateTournamentComponent},
-  {path: 'tournaments/:id', component: TournamentPageComponent}
+  {path: 'tournaments/:id', component: TournamentPageComponent},
+  {path: 'tournaments/:id', component: TournamentPageComponent},
+  {path: 'registration', component: AuthenticationPageComponent}
+
 ];
 
 @NgModule({
