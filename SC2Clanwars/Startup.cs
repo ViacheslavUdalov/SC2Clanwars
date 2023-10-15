@@ -35,7 +35,7 @@ namespace SC2Clanwars
             {
                 MongoDbSettings = new MongoDbSettings
                 {
-                    ConnectionString = "",
+                    ConnectionString = "mongodb+srv://outline:zxcv1234@outlinevpn.6qztdyi.mongodb.net/",
                     DatabaseName = "Sc2ClanWars"
                 },
                 IdentityOptionsAction = options =>
@@ -74,8 +74,8 @@ namespace SC2Clanwars
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    ValidIssuer = "http://localhost/5000",
-                    ValidAudience = "http://localhost/5000",
+                    ValidIssuer = "http://localhost:5034",
+                    ValidAudience = "http://localhost:5034",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1swek3u4uo2u4a6e")),
                     ClockSkew = TimeSpan.Zero
                 };
