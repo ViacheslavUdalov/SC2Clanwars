@@ -15,6 +15,8 @@ import { CreateTournamentComponent } from './components/pages/create-tournament/
 import {TournamentsPageComponent} from "./components/pages/tournaments-page/tournaments-page.component";
 import { TournamentPageComponent } from './components/pages/tournament-page/tournament-page.component';
 import { AuthenticationPageComponent } from './components/pages/authentication-page/authentication-page.component';
+import { LoginPageComponent } from './components/pages/login-page/login-page.component';
+import {AuthGuard} from "./Helpers/AuthGuard";
 
 @NgModule({
   declarations: [
@@ -30,8 +32,8 @@ import { AuthenticationPageComponent } from './components/pages/authentication-p
     LoadingPipe,
     CreateTournamentComponent,
     TournamentPageComponent,
-    AuthenticationPageComponent
-
+    AuthenticationPageComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,7 @@ import { AuthenticationPageComponent } from './components/pages/authentication-p
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

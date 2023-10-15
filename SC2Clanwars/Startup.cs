@@ -8,7 +8,6 @@ using SC2Clanwars.Configuration;
 using SC2Clanwars.DbContextModels;
 using SC2Clanwars.Mappers;
 using SC2Clanwars.Repositories;
-using SC2Clanwars.Services;
 
 namespace SC2Clanwars
 {
@@ -29,7 +28,6 @@ namespace SC2Clanwars
                 "Sc2ClanWars");
             services.AddScoped<TournamentsRepository>();
             services.AddScoped<ITournamentsMapper, TournamentsMapper>();
-            services.AddScoped<TournamentsService>();
 
             var mongoDbIdentityConfig = new MongoDbIdentityConfiguration
             {
@@ -44,7 +42,8 @@ namespace SC2Clanwars
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 8;
                     options.Password.RequireLowercase = false;
-                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
 
                     // lockout
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);

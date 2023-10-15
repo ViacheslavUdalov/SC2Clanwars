@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using SC2Clanwars.DbContextModels;
 using SC2Clanwars.Mappers;
 using SC2Clanwars.Models;
 using SC2Clanwars.Repositories;
-using SC2Clanwars.Services;
 
 namespace SC2Clanwars.Controllers;
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TournamentsController : ControllerBase
@@ -14,18 +15,15 @@ public class TournamentsController : ControllerBase
   private readonly IMongoCollection<TournamentDbModel> _tournamentCollection;
   private readonly ITournamentsMapper _tournamentsMapper;
   private readonly TournamentsRepository _tournamentsRepository;
-  private readonly TournamentsService _tournamentsService;
   public TournamentsController(
     IMongoCollection<TournamentDbModel> tournamentCollection,
     ITournamentsMapper tournamentsMapper,
-    TournamentsRepository tournamentsRepository,
-    TournamentsService tournamentsService)
+    TournamentsRepository tournamentsRepository)
   {
     // _tournamentsCollection = database.GetCollection<TournamentDbModel>("Sc2ClanWars");
     _tournamentCollection = tournamentCollection;
     _tournamentsMapper = tournamentsMapper;
     _tournamentsRepository = tournamentsRepository;
-    _tournamentsService = tournamentsService;
   }
   [HttpPost("create")]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,21 +39,18 @@ public class TournamentsController : ControllerBase
     return tournamentModel;
   }
 
+  
   [HttpGet("")]
   [ProducesResponseType(StatusCodes.Status200OK)]
   public async Task<List<TournamentDbModel>> GetAllTournaments()
   {
-   return await _tournamentsService.GetAllTournamentsService();
+   return await _tournamentsRepository.GetAllTournaments();
   }
 
+  
   [HttpGet("{id}")]
-
-  [ProducesResponseType(StatusCodes.Status400BadRequest)]
-  [ProducesResponseType(StatusCodes.Status200OK)]
-
   [ProducesResponseType(StatusCodes.Status200OK)]
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   public async Task<ActionResult<TournamentDbModel>> GetOneTournament(string id)
   {
@@ -84,7 +79,7 @@ public class TournamentsController : ControllerBase
       return NotFound();
     }
     await _tournamentsRepository.DeleteOneTournament(id);
-    return Ok();
+    return NoContent();
   }
 
   [HttpPut("update/{id}")]

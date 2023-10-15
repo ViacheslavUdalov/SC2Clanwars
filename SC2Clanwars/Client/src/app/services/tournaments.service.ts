@@ -1,4 +1,4 @@
-﻿import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+﻿import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {catchError, Observable, of } from "rxjs";
 import {ITournament} from "../models/tournamentModel";
@@ -9,21 +9,26 @@ import {ITournament} from "../models/tournamentModel";
 })
 export class TournamentsService {
   private apiURL = "http://localhost:5034/api/tournaments";
-
+private JWTtoken: string | null;
+private headers: HttpHeaders;
   constructor(
-    private http: HttpClient,
-  ) {
+    private http: HttpClient)
+  {
+    this.JWTtoken = localStorage.getItem('AccessToken');
+   this.headers = new HttpHeaders({
+      'Authorization' : `Bearer ${this.JWTtoken}`
+    });
   }
 
   tournaments: ITournament[] = [];
-getTournaments(): Observable<ITournament[]> {
-    return this.http.get<ITournament[]>(this.apiURL);
+getTournaments() {
+    return this.http.get<ITournament[]>(this.apiURL, {headers: this.headers});
 }
 getOneTournament(_id: string) : Observable<ITournament>  {
-  return this.http.get<ITournament>(`${this.apiURL}/${_id}`)
+  return this.http.get<ITournament>(`${this.apiURL}/${_id}`, {headers: this.headers})
 }
   createTournament(tournament: ITournament): Observable<ITournament> {
-    return this.http.post<ITournament>(`${this.apiURL}/create`, tournament)
+    return this.http.post<ITournament>(`${this.apiURL}/create`, tournament, {headers: this.headers})
       .pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('An error occurred:', error);
@@ -33,7 +38,7 @@ getOneTournament(_id: string) : Observable<ITournament>  {
     )
   }
   updateTournament(id: string, tournament: ITournament): Observable<ITournament> {
-  return this.http.put<ITournament>(`${this.apiURL}/update/${tournament.id}`, tournament).pipe(
+  return this.http.put<ITournament>(`${this.apiURL}/update/${tournament.id}`, tournament, {headers: this.headers}).pipe(
     catchError((error: HttpErrorResponse) => {
       console.error('An error occurred:', error);
       return of({} as ITournament

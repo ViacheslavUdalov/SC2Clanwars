@@ -19,10 +19,10 @@ public class TournamentsRepository
         _tournamentsMapper = tournamentsMapper;
     }
 
-    public async Task<List<TournamentModel>>  GetAllTournaments()
+    public async Task<List<TournamentDbModel>>  GetAllTournaments()
     {
-        var tournamentsDbModels = await _tournamentCollection.Find(_ => true).ToListAsync();
-        var tournaments = tournamentsDbModels.Select(_tournamentsMapper.MapTournamentModel).ToList();
+        var tournaments = await _tournamentCollection.Find(_ => true).ToListAsync();
+        // var tournaments = tournamentsDbModels.Select(_tournamentsMapper.MapTournamentModel).ToList();
         return tournaments;
     }
 
@@ -44,10 +44,8 @@ public class TournamentsRepository
         return tournament;
     }
 
-    public async Task<bool> DeleteOneTournament(string id)
+    public async Task DeleteOneTournament(string id)
     {
-        var filter = Builders<TournamentDbModel>.Filter.Eq("_id", id);
-        await _tournamentCollection.DeleteOneAsync(filter);
-         return true;
+        await _tournamentCollection.DeleteOneAsync(x => x.Id == id);
     }
 }
