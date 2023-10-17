@@ -6,24 +6,28 @@
 export interface ResultSuccessRegister {
   accessToken: string,
   Success: boolean,
-  Message: string
+  Message: string,
+  accessTokenExpires: string
 }
 export interface IResultSuccessLogin {
   accessToken: string,
   Success: boolean,
   Message: string,
   email: string,
-  userId: string
+  userId: string,
+  accessTokenExpires: string
 }
 export interface ILogin {
   Email: string,
-  Password: string
+  Password: string,
+  RememberMe: boolean
 }
 export interface IRegister {
   UserName: string,
   Email: string,
   Password: string,
   ConfirmPassword: string,
-  FullName?: string
+  FullName?: string,
+  RememberMe: boolean
 }
 

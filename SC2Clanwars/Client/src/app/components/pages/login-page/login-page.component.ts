@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ILogin, IResultSuccessLogin, IUser, ResultSuccessRegister} from "../../../models/IUser";
+import {ILogin, IResultSuccessLogin} from "../../../models/IUser";
 import {UsersService} from "../../../services/users.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
@@ -12,8 +12,10 @@ import {AuthService} from "../../../services/auth.service";
 export class LoginPageComponent {
   User: ILogin = {
     Email: "",
-    Password: ""
+    Password: "",
+    RememberMe: false
   };
+  private rememberMe: boolean;
   constructor(private usersService : UsersService,
               private router: Router,
               private authService: AuthService) {}
@@ -22,12 +24,23 @@ export class LoginPageComponent {
       next: (response: IResultSuccessLogin) => {
         console.log(response);
         if (response && response.accessToken) {
-          this.authService.login(response.accessToken);
+          if (this.rememberMe) {
+            this.authService.loginWithLocalStorage(response.accessToken, response.accessTokenExpires);
+          } else {
+            this.authService.loginWithSessionStorage(response.accessToken, response.accessTokenExpires);
+          }
           this.router.navigate(['/']);
         }
       },
       error: err => {
         console.error("Не удалось войти в аккаунт", err)
       }})
+  }
+  onRememberMe(rememberMe: boolean) {
+    if (rememberMe) {
+this.rememberMe = true;
+    } else {
+      this.rememberMe = false;
+    }
   }
 }

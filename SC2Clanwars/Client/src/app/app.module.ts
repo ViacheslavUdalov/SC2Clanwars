@@ -17,6 +17,8 @@ import { TournamentPageComponent } from './components/pages/tournament-page/tour
 import { AuthenticationPageComponent } from './components/pages/authentication-page/authentication-page.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import {AuthGuard} from "./Helpers/AuthGuard";
+import { ModalWindowComponent } from './Helpers/modal-window/modal-window.component';
+import { ModalWindowDirective } from './directives/modal-window.directive';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import {AuthGuard} from "./Helpers/AuthGuard";
     CreateTournamentComponent,
     TournamentPageComponent,
     AuthenticationPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    ModalWindowComponent,
+    ModalWindowDirective
   ],
   imports: [
     BrowserModule,

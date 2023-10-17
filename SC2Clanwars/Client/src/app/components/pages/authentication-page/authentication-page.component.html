@@ -33,5 +33,12 @@
            required
     >
   </div>
-  <button type="submit">Зарегистрироваться!</button>
+  <div class="form-group">
+    <label for="RememberMe">Запомнить меня</label>
+    <input type="checkbox" id="RememberMe" name="RememberMe"
+           [(ngModel)]="InputUser.RememberMe"
+           (ngModelChange)="rememberMe($event)"
+    >
+  </div>
+  <button type="submit">Зарегистрироваться</button>
 </form>

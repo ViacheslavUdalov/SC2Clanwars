@@ -15,8 +15,10 @@ InputUser: IRegister = {
   Email: "",
   Password: "",
   ConfirmPassword: "",
-  FullName: ""
+  FullName: "",
+  RememberMe: false
 };
+private RememberMe: boolean = false;
 constructor(private usersService : UsersService,
             private router: Router,
             private authService: AuthService) {}
@@ -25,12 +27,23 @@ onSubmit() {
   next: (response: ResultSuccessRegister) => {
     console.log(response);
     if (response && response.accessToken) {
-     this.authService.login(response.accessToken);
+      if (this.RememberMe) {
+        this.authService.loginWithLocalStorage(response.accessToken, response.accessTokenExpires);
+      } else {
+        this.authService.loginWithSessionStorage(response.accessToken, response.accessTokenExpires);
+      }
       this.router.navigate(['/']);
     }
   },
     error: err => {
     console.error("Регистрация не прошла", err)
     }})
+}
+rememberMe(rememberme: boolean) {
+  if (rememberme) {
+    this.RememberMe = true;
+  } else {
+    this.RememberMe = false;
+  }
 }
 }

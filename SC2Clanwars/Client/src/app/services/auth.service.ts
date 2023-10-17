@@ -1,21 +1,45 @@
 import { Injectable } from '@angular/core';
-import {IResultSuccessLogin} from "../models/IUser";
+import {BehaviorSubject, Observable} from "rxjs";
+import {TokenExpiresService} from "./tokenExpires.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isLoggedIn = false;
-  login(token: string)
+  constructor(private token: TokenExpiresService) {
+  }
+
+  private isLoggedIn= new BehaviorSubject<boolean>(false);
+  setAuth() {
+    if (this.token.isTokenExpired()) {
+      this.isLoggedIn.next(true);
+    } else {
+      this.isLoggedIn.next(false);
+    }
+  }
+  get useIsLoggedIn(): Observable<boolean> {
+    return this.isLoggedIn.asObservable();
+  }
+  loginWithLocalStorage(token: string, tokenExpires: string)
 {
   localStorage.setItem('AccessToken', token);
-  this.isLoggedIn = true;
+  localStorage.setItem('AccessTokenExpires', tokenExpires)
+  this.isLoggedIn.next(true);
 }
-logout() {
+logoutFromLocalStorage() {
   localStorage.removeItem('AccessToken');
-  this.isLoggedIn = true;
+  localStorage.removeItem('AccessTokenExpires')
+  this.isLoggedIn.next(false);
 }
-get isAuthenticated() : boolean {
-    return this.isLoggedIn;
+  loginWithSessionStorage(token: string, tokenExpires: string)
+  {
+    sessionStorage.setItem('AccessToken', token);
+    sessionStorage.setItem('AccessTokenExpires', tokenExpires)
+    this.isLoggedIn.next(true);
+  }
+  logoutFromSessionStorage() {
+    sessionStorage.removeItem('AccessToken');
+    sessionStorage.removeItem('AccessTokenExpires')
+    this.isLoggedIn.next(false);
   }
 }

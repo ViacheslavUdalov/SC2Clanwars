@@ -5,15 +5,23 @@ import {Injectable} from "@angular/core";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) { }
+  private isAuth: boolean;
+  constructor(
+              private router: Router,
+              private authService: AuthService) {
+
+  }
   // проверяет авторизован ли пользователь по проверке, есть ли в localStorage токен
   // используется в роутинге приложения
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-  if (this.authService.isAuthenticated) {
-    return true;
-  } else {
-    this.router.navigate(['/']);
-    return false;
-  }
+this.authService.useIsLoggedIn.subscribe(isAuth => {
+  this.isAuth = isAuth;
+})
+    if (this.isAuth) {
+      return true;
+    } else {
+      this.router.navigate(['/']);
+      return false;
+    }
   };
 }

@@ -1,13 +1,22 @@
+<app-modal-window></app-modal-window>
 <div class="NavContainer">
   <nav class="NavBar">
-    <a class="Link" routerLink="">Home</a>
-    <a class="Link" routerLink="tournaments">Tournaments</a>
-    <a class="Link" routerLink="users">Users</a>
-    <a class="Link" routerLink="teams">Teams</a>
-    <a class="Link" routerLink="about">About</a>
-    <a class="Link" routerLink="create-tournament">Create Tournament</a>
-    <a class="Link" routerLink="registration">Registration</a>
-    <a class="Link" routerLink="login">Login</a>
+    <a  class="Link" routerLink="">Home</a>
+    <a [ngClass]="{'Link': true, 'inactive-link' : !isAuth}"
+       routerLink="tournaments" appShowModalWindow>Tournaments</a>
+    <a [ngClass]="{'Link': true, 'inactive-link' : !isAuth}"
+        routerLink="users" appShowModalWindow>Users</a>
+    <a [ngClass]="{'Link': true, 'inactive-link' : !isAuth}"
+        routerLink="teams" appShowModalWindow>Teams</a>
+    <a
+      [ngClass]="{'Link': true, 'inactive-link' : !isAuth}"
+       routerLink="about" appShowModalWindow>About</a>
+    <a
+      [ngClass]="{'Link': true, 'inactive-link' : !isAuth}"
+       routerLink="create-tournament" appShowModalWindow>Create Tournament</a>
+    <a *ngIf="!isAuth" class="Link" routerLink="registration">Registration</a>
+    <a *ngIf="!isAuth" class="Link" routerLink="login">Login</a>
   </nav>
-
+<button *ngIf="isAuth" (click)="Logout()">Выйти!</button>
 </div>
+

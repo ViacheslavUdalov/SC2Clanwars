@@ -11,5 +11,13 @@
            [(ngModel)]="User.Password"
     >
   </div>
-  <button type="submit">Войти!</button>
+  <div class="form-group">
+    <label for="RememberMe">Запомнить меня</label>
+    <input type="checkbox" id="RememberMe" name="RememberMe"
+           [(ngModel)]="User.RememberMe"
+           (ngModelChange)="onRememberMe($event)"
+
+    >
+  </div>
+  <button type="submit">Войти</button>
 </form>

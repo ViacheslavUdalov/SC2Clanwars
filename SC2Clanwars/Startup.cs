@@ -46,6 +46,8 @@ namespace SC2Clanwars
                     options.Password.RequireNonAlphanumeric = false;
 
                     // lockout
+                    // нужны для блокировки пользователя,
+                    // первое - на какое время блок, второе - количество попыток входа
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                     options.Lockout.MaxFailedAccessAttempts = 5;
 
