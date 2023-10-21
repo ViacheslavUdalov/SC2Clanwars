@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using SC2Clanwars.DbContextModels;
-using SC2Clanwars.Mappers;
-using SC2Clanwars.Models;
 using SC2Clanwars.Repositories;
 
 namespace SC2Clanwars.Controllers;
@@ -12,26 +9,17 @@ namespace SC2Clanwars.Controllers;
 [Route("api/[controller]")]
 public class TournamentsController : ControllerBase
 {
-  private readonly IMongoCollection<TournamentDbModel> _tournamentCollection;
-  private readonly ITournamentsMapper _tournamentsMapper;
   private readonly TournamentsRepository _tournamentsRepository;
-  public TournamentsController(
-    IMongoCollection<TournamentDbModel> tournamentCollection,
-    ITournamentsMapper tournamentsMapper,
-    TournamentsRepository tournamentsRepository)
+  public TournamentsController(TournamentsRepository tournamentsRepository)
   {
-    // _tournamentsCollection = database.GetCollection<TournamentDbModel>("Sc2ClanWars");
-    _tournamentCollection = tournamentCollection;
-    _tournamentsMapper = tournamentsMapper;
     _tournamentsRepository = tournamentsRepository;
   }
   [HttpPost("create")]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status200OK)]
-  public async Task<ActionResult<TournamentDbModel>> CreateTournamentRepository(TournamentModel tournament)
+  public async Task<ActionResult<TournamentDbModel>> CreateTournamentRepository(TournamentDbModel tournament)
   {
-    var tournamentModel = _tournamentsMapper.MapTournamentDbModel(tournament);
-    await _tournamentCollection.InsertOneAsync(tournamentModel);
+   var tournamentModel =  await _tournamentsRepository.CreateTournament(tournament);
     if (tournamentModel is null)
     {
       return NotFound();
@@ -44,7 +32,7 @@ public class TournamentsController : ControllerBase
   [ProducesResponseType(StatusCodes.Status200OK)]
   public async Task<List<TournamentDbModel>> GetAllTournaments()
   {
-   return await _tournamentsRepository.GetAllTournaments();
+   return await _tournamentsRepository.GetAllTournamentsAsync();
   }
 
   
@@ -58,7 +46,7 @@ public class TournamentsController : ControllerBase
     {
       return BadRequest();
     }
-    var tournament =  await _tournamentsRepository.GetOneTournament(id);
+    var tournament =  await _tournamentsRepository.GetOneTournamentAsync(id);
     if (tournament is null)
     {
       return NotFound();
@@ -73,12 +61,12 @@ public class TournamentsController : ControllerBase
   [ProducesResponseType(StatusCodes.Status200OK)]
   public async Task<ActionResult<TournamentDbModel>> RemoveOne(string id)
   {
-    var tournament = _tournamentsRepository.GetOneTournament(id);
+    var tournament = _tournamentsRepository.GetOneTournamentAsync(id);
     if (tournament is null)
     {
       return NotFound();
     }
-    await _tournamentsRepository.DeleteOneTournament(id);
+    await _tournamentsRepository.DeleteOneTournamentAsync(id);
     return NoContent();
   }
 
@@ -88,12 +76,12 @@ public class TournamentsController : ControllerBase
   [ProducesResponseType(StatusCodes.Status200OK)]
   public async Task<ActionResult<TournamentDbModel>> UpdateOne(string id, TournamentDbModel tournament)
   {
-    var Tournament = _tournamentsRepository.GetOneTournament(id);
+    var Tournament = _tournamentsRepository.GetOneTournamentAsync(id);
     if (Tournament is null)
     {
       return NotFound();  
     }
-    await _tournamentsRepository.UpdateTournament(id, tournament);
+    await _tournamentsRepository.UpdateTournamentAsync(id, tournament);
     return tournament;
   }
  }

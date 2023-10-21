@@ -1,13 +1,18 @@
 ﻿export interface IUser {
-  Name?: string,
-  Email?: string,
-  Password?: string
+  fullName: string,
+  email: string,
+  portraitUrl: string,
+  bannerUrl: string,
+userName: string,
+  id: string,
+  MainRace: string
 }
 export interface ResultSuccessRegister {
   accessToken: string,
   Success: boolean,
   Message: string,
-  accessTokenExpires: string
+  accessTokenExpires: string,
+  userId: string
 }
 export interface IResultSuccessLogin {
   accessToken: string,

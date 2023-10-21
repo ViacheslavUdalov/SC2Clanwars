@@ -1,11 +1,11 @@
 <!--<p *ngIf="loading" class="">Loading</p>-->
 <!--<div *ngIf="loading">Загрузка...</div>-->
 <div>
-  <ul>
-    <li *ngFor="let tournament of tournaments">
+  <ul *ngFor="let tournament of tournaments">
+    <li>
       <h2><a [routerLink]="['/tournaments', tournament.id]">{{ tournament.name }}</a></h2>
       <img class="TournamentImg" [src]="tournament.avatar"/>
-      <p>{{ tournament.prizePool }}</p>
+      <p>{{ tournament.prizePool}}</p>
     </li>
   </ul>
 </div>

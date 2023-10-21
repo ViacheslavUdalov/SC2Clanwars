@@ -19,6 +19,8 @@ import { LoginPageComponent } from './components/pages/login-page/login-page.com
 import {AuthGuard} from "./Helpers/AuthGuard";
 import { ModalWindowComponent } from './Helpers/modal-window/modal-window.component';
 import { ModalWindowDirective } from './directives/modal-window.directive';
+import {UserComponent} from "./components/pages/user-page/user.component";
+import { UpdateUserPageComponent } from './components/pages/update-user-page/update-user-page.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { ModalWindowDirective } from './directives/modal-window.directive';
     AuthenticationPageComponent,
     LoginPageComponent,
     ModalWindowComponent,
-    ModalWindowDirective
+    ModalWindowDirective,
+    UserComponent,
+    UpdateUserPageComponent
   ],
   imports: [
     BrowserModule,

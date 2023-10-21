@@ -1,0 +1,18 @@
+import { Injectable } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {IUser} from "../models/IUser";
+import {IBanners, IPortraits} from "../models/Pictires";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetPicturesService {
+  constructor(private http: HttpClient) { }
+  GetPortraitsJson(): Observable<IPortraits[]> {
+    return this.http.get<IPortraits[]>('assets/portraits.json');
+  }
+  // GetBannersJson(): Observable<IBanners[]> {
+  //   return this.http.get<IBanners[]>('assets/banners.json');
+  // }
+}

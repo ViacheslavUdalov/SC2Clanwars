@@ -1,0 +1,54 @@
+<div>
+  <div>
+    <form (submit)="onSubmit()">
+      <div class="form-group">
+        <label for="userName">Имя Пользователя на сайте</label>
+        <input type="text" id="userName" name="userName"
+               [(ngModel)]="CurrentUser.userName"
+               value="{{CurrentUser?.userName}}"
+               required>
+      </div>
+      <div class="form-group">
+        <label for="fullName">Настоящее Имя Пользователя</label>
+        <input type="text" id="fullName" name="fullName"
+               [(ngModel)]="CurrentUser.fullName" value="{{CurrentUser?.fullName}}"
+        >
+      </div>
+      <div class="form-group">
+        <label for="email">Ваш Email</label>
+        <input type="text" id="email" name="email"
+               [(ngModel)]="CurrentUser.email"
+               value="{{CurrentUser?.email}}"
+        >
+      </div>
+      <div class="form-group">
+        <label for="MainRace">Основная раса</label>
+        <input type="text" id="MainRace" name="MainRace"
+               [(ngModel)]="CurrentUser.MainRace"
+               value="{{CurrentUser?.MainRace}}"
+        >
+      </div>
+<!--      <input type="file" style="display: none" #file (change)="file.files && uploadFile(file.files)">-->
+<!--      <button type="button" (click)="file.click()">Upload File</button>-->
+<!--      <span *ngIf="progress > 0">-->
+<!--        {{progress}}%-->
+<!--      </span>-->
+<!--      <span *ngIf="message">-->
+<!--        {{message}}-->
+<!--      </span>-->
+      <input type="file"  (change)="onFileSelected($event)">
+      <img *ngIf="CurrentUser.bannerUrl" [src]="CurrentUser.bannerUrl">
+      <button  type="submit">Обновить данные</button>
+    </form>
+  </div>
+  <div class="ContainerForPortraits">
+    <h3>Выберите портрет</h3>
+  <div class="image-table-portraits">
+    <div *ngFor="let portrait of Portraits" class="image-cell-portraits">
+      <div class="portrait-wrapper">
+        <img class="PortraitImg" [src]="portrait.url" alt="Portrait"/>
+      </div>
+    </div>
+</div>
+  </div>
+</div>

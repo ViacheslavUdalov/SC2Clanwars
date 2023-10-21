@@ -16,6 +16,8 @@ private modalWindow: ModalWindowService) {
   });
   if (localStorage.getItem('AccessToken') || sessionStorage.getItem('AccessToken')) {
 this.isAuth = true;
+  } else {
+    this.isAuth = false;
   }
 }
 

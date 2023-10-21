@@ -12,17 +12,19 @@ export class TournamentsService {
 private JWTtoken: string | null;
 private headers: HttpHeaders;
   constructor(
-    private http: HttpClient)
-  {
-    this.JWTtoken = localStorage.getItem('AccessToken');
+    private http: HttpClient) {
+    if (localStorage.getItem('AccessToken')) {
+      this.JWTtoken = localStorage.getItem('AccessToken');
+    } else if (sessionStorage.getItem('AccessToken')) {
+      this.JWTtoken = sessionStorage.getItem('AccessToken');
+    }
    this.headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.JWTtoken}`
     });
   }
 
-  tournaments: ITournament[] = [];
-getTournaments() {
-    return this.http.get<ITournament[]>(this.apiURL, {headers: this.headers});
+getTournaments(): Observable<ITournament[]>  {
+  return this.http.get<ITournament[]>(`${this.apiURL}`, {headers: this.headers})
 }
 getOneTournament(_id: string) : Observable<ITournament>  {
   return this.http.get<ITournament>(`${this.apiURL}/${_id}`, {headers: this.headers})

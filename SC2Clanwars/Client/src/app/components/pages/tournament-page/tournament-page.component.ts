@@ -8,9 +8,8 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './tournament-page.component.html',
   styleUrls: ['./tournament-page.component.less']
 })
-export class TournamentPageComponent implements OnInit, OnDestroy{
+export class TournamentPageComponent implements OnInit{
 tournament: ITournament;
-// id : string | null = null;
   constructor(
     private tournamentsService : TournamentsService,
   private route : ActivatedRoute,
@@ -27,14 +26,11 @@ tournament: ITournament;
         })
       }
     })
-
   }
  RemoveTournament(id: string) {
-    this.tournamentsService.deleteTournament(id).subscribe(() => {
-      this.router.navigate([`/tournaments`]);
-    })
+   this.tournamentsService.deleteTournament(id).subscribe(() => {
+     this.router.navigate([`/tournaments`]);
+   })
 
-}
-  ngOnDestroy() {
-  }
+ }
 }

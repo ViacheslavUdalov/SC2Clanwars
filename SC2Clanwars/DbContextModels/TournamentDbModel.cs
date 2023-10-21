@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
-using SC2Clanwars.Models;
+
 
 namespace SC2Clanwars.DbContextModels;
 
@@ -20,7 +20,7 @@ public class TournamentDbModel
     public string? PrizePool { get; set; }
 
     [BsonElement("Teams")]
-    public TeamModel[]? Teams { get; set; }
+    public TeamDbModel[]? Teams { get; set; }
 
     [BsonElement("Avatar")]
     public string? Avatar { get; set; }

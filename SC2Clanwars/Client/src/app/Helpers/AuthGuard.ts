@@ -1,6 +1,7 @@
 ﻿import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {Injectable} from "@angular/core";
+import {map, Observable} from "rxjs";
 
 
 @Injectable()
@@ -13,15 +14,18 @@ export class AuthGuard implements CanActivate {
   }
   // проверяет авторизован ли пользователь по проверке, есть ли в localStorage токен
   // используется в роутинге приложения
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-this.authService.useIsLoggedIn.subscribe(isAuth => {
-  this.isAuth = isAuth;
-})
-    if (this.isAuth) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean{
+return this.authService.useIsLoggedIn.pipe(
+  map(isAuth => {
+    if (isAuth) {
+      this.isAuth = true;
       return true;
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
+      this.isAuth = false;
       return false;
     }
-  };
+  })
+);
+  }
 }

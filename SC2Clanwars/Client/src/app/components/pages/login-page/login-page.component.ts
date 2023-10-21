@@ -25,9 +25,9 @@ export class LoginPageComponent {
         console.log(response);
         if (response && response.accessToken) {
           if (this.rememberMe) {
-            this.authService.loginWithLocalStorage(response.accessToken, response.accessTokenExpires);
+            this.authService.loginWithLocalStorage(response.accessToken, response.accessTokenExpires, response.userId);
           } else {
-            this.authService.loginWithSessionStorage(response.accessToken, response.accessTokenExpires);
+            this.authService.loginWithSessionStorage(response.accessToken, response.accessTokenExpires, response.userId);
           }
           this.router.navigate(['/']);
         }

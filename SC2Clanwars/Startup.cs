@@ -3,10 +3,11 @@ using AspNetCore.Identity.MongoDbCore.Extensions;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using SC2Clanwars.Configuration;
 using SC2Clanwars.DbContextModels;
-using SC2Clanwars.Mappers;
 using SC2Clanwars.Repositories;
 
 namespace SC2Clanwars
@@ -24,10 +25,20 @@ namespace SC2Clanwars
         {
             services.AddSignalR();
             services.AddControllers();
+            services.AddDirectoryBrowser();
             services.AddMongoDbDependencies("mongodb+srv://outline:zxcv1234@outlinevpn.6qztdyi.mongodb.net/",
                 "Sc2ClanWars");
             services.AddScoped<TournamentsRepository>();
-            services.AddScoped<ITournamentsMapper, TournamentsMapper>();
+            // ниже добавляем именно так колекцию, потому что иначе выдаёт ошибку 
+            // Unable to resolve service for type 'MongoDB.Driver.IMongoCollection
+            // а затем регистрируем репозиторий
+            services.AddScoped<IMongoCollection<ApplicationUser>>(provider =>
+            {
+                var database = provider.GetRequiredService<IMongoDatabase>();
+                return database.GetCollection<ApplicationUser>("Users");
+            });
+            services.AddScoped<UsersRepository>();
+            // services.AddScoped<ITournamentsMapper, TournamentsMapper>();
 
             var mongoDbIdentityConfig = new MongoDbIdentityConfiguration
             {
@@ -60,7 +71,6 @@ namespace SC2Clanwars
                 .AddSignInManager<SignInManager<ApplicationUser>>()
                 .AddRoleManager<RoleManager<ApplicationRole>>()
                 .AddDefaultTokenProviders();
-
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -81,15 +91,15 @@ namespace SC2Clanwars
                     ClockSkew = TimeSpan.Zero
                 };
             });
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", builder => builder
-                    .WithOrigins("http://localhost:4200")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials()
-                );
-            });
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                // .AllowCredentials()
+            );
+        });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -100,11 +110,23 @@ namespace SC2Clanwars
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
+                RequestPath = new PathString("/StaticFiles")
+            });
+            // app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+            // {
+            //     FileProvider = new PhysicalFileProvider(
+            //         Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images")),
+            //     RequestPath = new PathString("/MyImages")
+            // });
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("CorsPolicy");
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

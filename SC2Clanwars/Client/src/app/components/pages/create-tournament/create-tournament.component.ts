@@ -35,7 +35,16 @@ ngOnInit() {
       this.tournament = loadedTournament;
   })
 }
-
+onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file ) {
+      this.uploadFile(file);
+    }
+}
+uploadFile(file: File) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+}
   onSubmit() {
     if (this.isCreating) {
 

@@ -163,7 +163,8 @@ public class AuthenticationController : ControllerBase
                 AccessToken = accessToken,
                 Success = true,
                 Message = "User register successfully",
-                AccessTokenExpires = expires
+                AccessTokenExpires = expires,
+                UserId = existUser?.Id.ToString(),
             };
         }
         catch (Exception e)

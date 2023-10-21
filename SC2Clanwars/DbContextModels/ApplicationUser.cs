@@ -7,5 +7,7 @@ namespace SC2Clanwars.DbContextModels;
 public class ApplicationUser : MongoIdentityUser<Guid>
 {
     public string FullName { get; set; } = string.Empty;
-    
+    public string PortraitUrl { get; set; } = string.Empty;
+    public string BannerUrl { get; set; } = string.Empty;
+    public string MainRace { get; set; } = string.Empty;
 }
