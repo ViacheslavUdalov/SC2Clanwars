@@ -1,5 +1,6 @@
 ﻿export interface IPortraits {
-  url: boolean
+  url: string,
+  id: number
 }
 export interface IBanners {
   url: boolean,

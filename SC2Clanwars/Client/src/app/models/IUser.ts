@@ -3,7 +3,7 @@
   email: string,
   portraitUrl: string,
   bannerUrl: string,
-userName: string,
+  userName: string,
   id: string,
   MainRace: string
 }

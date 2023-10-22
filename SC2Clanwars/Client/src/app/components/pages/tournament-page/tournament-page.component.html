@@ -1,5 +1,10 @@
 <div *ngIf="tournament">
   <h2>{{tournament.name}}</h2>
+  <div *ngIf="creatorTournament">
+  <span>создатель</span>
+  <span>{{creatorTournament?.userName}}</span>
+  <span>{{creatorTournament?.email}}</span>
+  </div>
   <span>{{tournament.prizePool }}</span>
   <a [routerLink]="['/create-tournament/', tournament.id]">Обновить турнир</a>
   <button (click)="RemoveTournament(tournament.id)">Удалить</button>

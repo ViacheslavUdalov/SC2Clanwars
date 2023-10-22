@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SC2Clanwars.DbContextModels;
 using SC2Clanwars.Repositories;
@@ -17,8 +18,19 @@ public class TournamentsController : ControllerBase
   [HttpPost("create")]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status200OK)]
-  public async Task<ActionResult<TournamentDbModel>> CreateTournamentRepository(TournamentDbModel tournament)
+  public async Task<ActionResult<TournamentDbModel>> CreateTournamentRepository([FromBody] TournamentDbModel tournament)
   {
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (string.IsNullOrEmpty(userId))
+    {
+      return Unauthorized();
+    }
+
+    if (!ModelState.IsValid)
+    {
+      return BadRequest(ModelState);
+    }
+    tournament.CreatorId = userId;
    var tournamentModel =  await _tournamentsRepository.CreateTournament(tournament);
     if (tournamentModel is null)
     {

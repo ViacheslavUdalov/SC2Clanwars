@@ -1,0 +1,208 @@
+﻿[
+  {
+    "url": "./assets/portraits/Adjutant_SC2_Portrait1.png",
+    "id" : 1
+  },
+  {
+    "url": "./assets/portraits/Annabelle_SC2_Portrait1.png",
+    "id" : 2
+  },
+  {
+    "url": "./assets/portraits/Battlecruiser_SC2_Portrait1.png",
+    "id" : 3
+  },
+  {
+    "url": "./assets/portraits/CarbotMarineLevel_SC2_Portrait1.png",
+    "id" : 4
+  },
+  {
+  "url": "./assets/portraits/CarbotZerglingLevel_SC2_Portrait1.png",
+    "id" : 5
+  }, {
+  "url": "./assets/portraits/DarkCont_SC2Portrait.png",
+  "id" : 6
+},
+  {
+    "url": "./assets/portraits/Executor_SC2_Portrait1.png",
+    "id" : 7
+  },
+  {
+    "url": "./assets/portraits/HeRoMaRinE_WCS2018_Portrait1.png",
+    "id" : 8
+  },
+  {
+    "url": "./assets/portraits/Innovation_SC2Portrait (1).png",
+    "id" : 9
+  },
+  {
+    "url": "./assets/portraits/Ladder_SC2_Portrait1.png",
+    "id" : 10
+  },
+  {
+  "url": "./assets/portraits/Marine_SC2_Portrait1.png",
+    "id" : 11
+  },
+  {
+    "url": "./assets/portraits/Maru_WCS2018_Portrait1.png",
+    "id" : 12
+  },
+  {
+    "url": "./assets/portraits/Medic_SC2_Portrait1.png",
+    "id" : 13
+  },
+  {
+    "url": "./assets/portraits/Medivac_SC2_Portrait1.png",
+    "id" : 14
+  },
+  {
+    "url": "./assets/portraits/PandaMarine_SC2_Portrait1.png",
+    "id" : 15
+  },
+  {
+    "url": "./assets/portraits/PanterranMarine_SC2_Portrait1.png",
+    "id" : 16
+  },
+  {
+    "url": "./assets/portraits/ProtossLevel3_SC2-HotS_Head1.png",
+    "id" : 17
+  },
+  {
+    "url": "./assets/portraits/ProtossLevel27_SC2-HotS_Head1.png",
+    "id" : 18
+  },
+  {
+    "url": "./assets/portraits/ProtossLevel_SC2_Portrait1.png",
+    "id" : 19
+  },
+  {
+    "url": "./assets/portraits/RaynorCoop_SC2_Portrait1.png",
+    "id" : 20
+  },
+  {
+  "url": "./assets/portraits/Rogue_WCS2018_Portrait1.png",
+    "id" : 21
+},
+  {
+    "url": "./assets/portraits/RogueChampion_SC2Portrait.png",
+    "id" : 22
+  },
+  {
+    "url": "./assets/portraits/RogueCont_SC2Portrait.png",
+    "id" : 23
+  },
+  {
+    "url": "./assets/portraits/Serral_WCS2018_Portrait1.png",
+    "id" : 24
+  },
+  {
+    "url": "./assets/portraits/SerrealCont_SC2Portrait.png",
+    "id" : 25
+  },
+  {
+    "url": "./assets/portraits/SiegeTank_SC2_Portrait1.png",
+    "id" : 26
+  },
+  {
+    "url": "./assets/portraits/TemplarTV_SC2_Portrait1.png",
+    "id" : 27
+  },
+  {
+    "url": "./assets/portraits/TerranLevel14_SC2-HotS_Head1.png",
+    "id" : 28
+  },
+  {
+    "url": "./assets/portraits/TerranLevel27_SC2-HotS_Head1.png",
+    "id" : 29
+  },
+  {
+    "url": "./assets/portraits/TerranLevel29_SC2-HotS_Head1 (1).png",
+    "id" : 30
+  },
+  {
+    "url": "./assets/portraits/TerranLevel_SC2_Portrait1.png",
+    "id" : 31
+  },
+  {
+    "url": "./assets/portraits/WCS2019Dark_SC2Portrait.png",
+    "id" : 32
+  },
+  {
+    "url": "./assets/portraits/WCS2019DarkChampion_SC2Portrait.png",
+    "id" : 33
+  },
+  {
+    "url": "./assets/portraits/WCS2019HeRoMaRinE_SC2Portrait.png",
+    "id" : 34
+  }, {
+  "url": "./assets/portraits/WCS2019Maru_SC2Portrait.png",
+  "id" : 35
+},
+  {
+    "url": "./assets/portraits/WCS2019Rogue_SC2Portrait.png",
+    "id" : 36
+  },
+  {
+    "url": "./assets/portraits/WCS2019Serral_SC2Portrait.png",
+    "id" : 37
+  },
+  {
+    "url": "./assets/portraits/WCS2019Trap_SC2Portrait.png",
+    "id" : 38
+  },
+  {
+    "url": "./assets/portraits/WCS2019Trophy_SC2Portrait.png",
+    "id" : 39
+  },
+  {
+    "url": "./assets/portraits/WCSChampionByun_SC2Portrait.png",
+    "id" : 40
+  },
+  {
+    "url": "./assets/portraits/WCSChampionSerral_SC2Portrait.png",
+    "id" : 41
+  },
+  {
+    "url": "./assets/portraits/WCSTrophy_WCS2018_Portrait1.png",
+    "id" : 42
+  },
+  {
+    "url": "./assets/portraits/WCSTY_SC2Portrait.png",
+    "id" : 43
+  },
+  {
+    "url": "./assets/portraits/WCSZest_SC2Portrait.png",
+    "id" : 44
+  },
+  {
+    "url": "./assets/portraits/WolfMarine_SC2_Portrait1.png",
+    "id" : 45
+  },
+  {
+    "url": "./assets/portraits/Zealot_SC2_Portrait1.png",
+    "id" : 46
+  },
+  {
+    "url": "./assets/portraits/ZergLevel3_SC2-HotS_Head1.png",
+    "id" : 47
+  },
+  {
+    "url": "./assets/portraits/ZergLevel11_SC2-HotS_Head1.png",
+    "id" : 48
+  },
+  {
+    "url": "./assets/portraits/ZergLevel23_SC2-HotS_Head1.png",
+    "id" : 49
+  },
+  {
+    "url": "./assets/portraits/ZergLevel27_SC2-HotS_Head1.png",
+    "id" : 50
+  },
+  {
+    "url": "./assets/portraits/ZergLevel29_SC2-HotS_Head1.png",
+    "id" : 51
+  },
+  {
+    "url": "./assets/portraits/ZergLevel_SC2_Portrait1.png",
+    "id" : 52
+  }
+]

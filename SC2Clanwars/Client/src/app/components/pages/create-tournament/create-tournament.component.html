@@ -1,28 +1,43 @@
-<form (submit)="onSubmit()">
+<!--<form (submit)="onSubmit()">-->
+<!--  <div class="form-group">-->
+<!--    <label for="name">Название турнира:</label>-->
+<!--    <input type="text" id="name" name="name"-->
+<!--           [(ngModel)]="tournament.name"-->
+<!--           value="{{tournament?.name}}">-->
+<!--  </div>-->
+
+<!--  <div class="form-group">-->
+<!--    <label for="prizePool">Призовой фонд:</label>-->
+<!--    <input type="text" id="prizePool" name="prizePool"-->
+<!--           [(ngModel)]="tournament.prizePool" value="{{tournament?.prizePool}}"-->
+<!--    >-->
+<!--  </div>-->
+
+<!--  <div class="form-group">-->
+<!--    <label for="avatar">Ссылка на аватар:</label>-->
+<!--    <input type="text" id="avatar" name="avatar"-->
+<!--           [(ngModel)]="tournament.avatar"-->
+<!--           value="{{tournament?.avatar}}"-->
+<!--    >-->
+<!--  </div>-->
+
+<!--  <button  *ngIf="isCreating"type="submit">Создать турнир</button>-->
+<!--  <button *ngIf="!isCreating" type="submit">Обновить турнир</button>-->
+
+<!--</form>-->
+<form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label for="name">Название турнира:</label>
-    <input type="text" id="name" name="name"
-           [(ngModel)]="tournament.name"
-           value="{{tournament.name}}"
-           required>
+    <label for="name">Tournament Name:</label>
+    <input type="text" id="name" formControlName="name" required />
   </div>
-
   <div class="form-group">
-    <label for="prizePool">Призовой фонд:</label>
-    <input type="text" id="prizePool" name="prizePool"
-           [(ngModel)]="tournament.prizePool" value="{{tournament.prizePool}}"
-    >
+    <label for="prizePool">Prize Pool:</label>
+    <input type="text" id="prizePool" formControlName="prizePool" />
   </div>
-
   <div class="form-group">
-    <label for="avatar">Ссылка на аватар:</label>
-    <input type="text" id="avatar" name="avatar"
-           [(ngModel)]="tournament.avatar"
-           value="{{tournament.avatar}}"
-    >
+    <label for="avatar">Avatar URL:</label>
+    <input type="text" id="avatar" formControlName="avatar" />
   </div>
-
-  <button  *ngIf="isCreating"type="submit">Создать турнир</button>
-  <button *ngIf="!isCreating" type="submit">Обновить турнир</button>
-
+   <button  *ngIf="isCreating"type="submit" [disabled]="tournamentForm.invalid">Создать турнир</button>
+    <button *ngIf="!isCreating" type="submit" [disabled]="tournamentForm.invalid">Обновить турнир</button>
 </form>

@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import { GlobalErrorComponent } from './components/global-error/global-error.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { TeamsPageComponent } from './components/pages/teams-page/teams-page.component';
 import {AboutPageComponent} from "./components/pages/about-page/about-page.component";
@@ -43,12 +43,13 @@ import { UpdateUserPageComponent } from './components/pages/update-user-page/upd
     UserComponent,
     UpdateUserPageComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
   providers: [ AuthGuard],
   bootstrap: [AppComponent]
 })

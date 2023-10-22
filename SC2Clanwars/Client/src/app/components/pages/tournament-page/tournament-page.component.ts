@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ITournament} from "../../../models/tournamentModel";
 import {TournamentsService} from "../../../services/tournaments.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AllUsersDataService} from "../../../services/all-users-data.service";
+import {IUser} from "../../../models/IUser";
 
 @Component({
   selector: 'app-tournament-page',
@@ -10,10 +12,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class TournamentPageComponent implements OnInit{
 tournament: ITournament;
+creatorTournament: IUser;
   constructor(
     private tournamentsService : TournamentsService,
   private route : ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private allUserData: AllUsersDataService
   ) {}
 
   ngOnInit() {
@@ -23,6 +27,12 @@ tournament: ITournament;
       if (id) {
         this.tournamentsService.getOneTournament(id).subscribe(tournaments => {
           this.tournament = tournaments;
+          console.log(this.tournament)
+          if (this.tournament.creatorId) {
+            this.allUserData.GetOneUser(this.tournament.creatorId).subscribe(currentIUser => {
+              this.creatorTournament = currentIUser;
+            })
+          }
         })
       }
     })

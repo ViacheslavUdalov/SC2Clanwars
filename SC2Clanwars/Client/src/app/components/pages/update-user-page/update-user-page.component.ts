@@ -25,11 +25,7 @@ export class UpdateUserPageComponent implements OnInit{
     id: '',
     MainRace: ''
   }
-  UploadedFile: string;
   selectedFile: File;
-  public message: string;
-  public progress: number;
-  @Output() public onUploadFinished = new EventEmitter();
   constructor(
     private userDataService: AllUsersDataService,
               private route: ActivatedRoute,
@@ -50,6 +46,7 @@ this.CurrentUser = currentUser;
   // реализуем получение данных из корневого json файла в сервисе
   this.getPicturesService.GetPortraitsJson().subscribe((data: IPortraits[]) => {
     this.Portraits = data;
+    console.log(data);
   });
 }
 onFileSelected(event: any):void {
@@ -83,12 +80,14 @@ onUploadBanner(file: File):void {
       reader.readAsDataURL(imageData);
     });
   }
+  setPortraitImg(portrait: IPortraits) {
+this.CurrentUser.portraitUrl = portrait.url;
+    console.log(portrait)
+  }
   onSubmit() {
 this.userDataService.UpdateDateOfUser(this.CurrentUser.id, this.CurrentUser).subscribe((updatedUser: IUser) => {
   this.CurrentUser = updatedUser;
 })
   }
-
-  protected readonly File = File;
 }
 

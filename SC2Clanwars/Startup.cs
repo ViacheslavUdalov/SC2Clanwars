@@ -118,6 +118,12 @@ namespace SC2Clanwars
                     Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
                 RequestPath = new PathString("/StaticFiles")
             });
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"assets")),
+                RequestPath = new PathString("/assets")
+            });
             // app.UseDirectoryBrowser(new DirectoryBrowserOptions()
             // {
             //     FileProvider = new PhysicalFileProvider(

@@ -1,7 +1,11 @@
-<div>
-  <h1>{{user?.userName}}</h1>
-  <h1>{{user?.fullName}}</h1>
-  <img src="{{user?.portraitUrl}}"/>
-  <img src="{{user?.bannerUrl}}"/>
-  <a *ngIf="isOwner" [routerLink]="['/update-user', user?.id]">Редактировать</a>
-</div>
+<div class="user-page-container">
+  <div>
+  <h1 class="user-page-name">{{user?.userName}}</h1>
+  <span class="">{{user?.fullName}} </span>
+  <img src="{{user?.portraitUrl}}" class="user-portrait"/>
+    <div class="user-banner-wrapper">
+  <img src="{{user?.bannerUrl}}" class="user-banner"/>
+    </div>
+  <button *ngIf="isOwner" [routerLink]="['/update-user', user?.id]" class="">Редактировать</button>
+  </div>
+  </div>

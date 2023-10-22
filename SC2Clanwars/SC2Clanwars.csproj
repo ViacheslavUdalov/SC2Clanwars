@@ -20,7 +20,7 @@
       <Folder Include="Hubs\" />
       <Folder Include="interfaces\" />
       <Folder Include="StaticFiles\Images\" />
-      <Folder Include="wwwroot\images\" />
+      <Folder Include="wwwroot\" />
     </ItemGroup>
 
     <ItemGroup>
