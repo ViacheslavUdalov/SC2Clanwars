@@ -8,7 +8,9 @@ using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using SC2Clanwars.Configuration;
 using SC2Clanwars.DbContextModels;
+using SC2Clanwars.Hubs;
 using SC2Clanwars.Repositories;
+using SC2Clanwars.SignalRModel;
 
 namespace SC2Clanwars
 {
@@ -23,9 +25,9 @@ namespace SC2Clanwars
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
             services.AddControllers();
             services.AddDirectoryBrowser();
+
             services.AddMongoDbDependencies("mongodb+srv://outline:zxcv1234@outlinevpn.6qztdyi.mongodb.net/",
                 "Sc2ClanWars");
             services.AddScoped<TournamentsRepository>();
@@ -38,6 +40,7 @@ namespace SC2Clanwars
                 return database.GetCollection<ApplicationUser>("Users");
             });
             services.AddScoped<UsersRepository>();
+            services.AddScoped<TeamsRepository>();
             // services.AddScoped<ITournamentsMapper, TournamentsMapper>();
 
             var mongoDbIdentityConfig = new MongoDbIdentityConfiguration
@@ -91,15 +94,18 @@ namespace SC2Clanwars
                     ClockSkew = TimeSpan.Zero
                 };
             });
-        services.AddCors(options =>
-        {
-            options.AddPolicy("CorsPolicy", builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                // .AllowCredentials()
-            );
-        });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
+            });
+            services.AddSignalR();
+            // регистрируем именно так, без new
+            services.AddSingleton<Dictionary<string, UserRoomConnection>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -124,16 +130,15 @@ namespace SC2Clanwars
                     Path.Combine(Directory.GetCurrentDirectory(), @"assets")),
                 RequestPath = new PathString("/assets")
             });
-            // app.UseDirectoryBrowser(new DirectoryBrowserOptions()
-            // {
-            //     FileProvider = new PhysicalFileProvider(
-            //         Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images")),
-            //     RequestPath = new PathString("/MyImages")
-            // });
             app.UseRouting();
+            
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/chathub");
+                endpoints.MapControllers();
+            });
         }
     }
 }

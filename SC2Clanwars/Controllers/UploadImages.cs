@@ -13,7 +13,7 @@ public class FileUploadController : ControllerBase
         _environment = environment;
     }
 
-    [HttpPost(""), DisableRequestSizeLimit]
+    [HttpPost("userimages"), DisableRequestSizeLimit]
     // [RequestSizeLimit(2097152)] // Ограничение размера запроса (2 МБ)
     // [RequestFormLimits(MultipartBodyLengthLimit = 2097152)] // Ограничение размера тела запроса (2 МБ)
     public  IActionResult UploadBannerUrl()
@@ -52,20 +52,86 @@ public class FileUploadController : ControllerBase
             return StatusCode(500, $"Intertal server error: {e}");
         }
     }
-    
-    [HttpGet("{imageName}")]
-    public IActionResult GetImage(string imageName)
+    [HttpPost("tournaments"), DisableRequestSizeLimit]
+    // [RequestSizeLimit(2097152)] // Ограничение размера запроса (2 МБ)
+    // [RequestFormLimits(MultipartBodyLengthLimit = 2097152)] // Ограничение размера тела запроса (2 МБ)
+    public  IActionResult UploadTournamentAvatar()
     {
-        var imagePath = Path.Combine(_environment.WebRootPath, imageName);
-        if (System.IO.File.Exists(imagePath))
+        try
         {
-            var provider = new FileExtensionContentTypeProvider();
-            if (provider.TryGetContentType(imageName, out var contentType))
+            var file = Request.Form.Files[0];
+            var folderName = Path.Combine("StaticFiles", "TournamentsAvatar");
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            
+            if (file != null && file.Length > 0)
             {
-                return PhysicalFile(imagePath, contentType);
+                // проверяем на совпадение типов файлов, которые можно загружать
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName).Replace("\\", "/");;
+                //  using используемое для управления ресурсами,  После завершения блока using,
+                // ресурсы, выделенные для объекта FileStream, будут автоматически освобождены. 
+                // FileStream представляет поток файла для операций ввода-вывода с файлами. 
+                
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                // возвращает путь к загруженному файлу
+                return Ok(new { imagePath = dbPath });
             }
+            else
+            {
+                return BadRequest("Файл не найден");
+            }
+         
         }
-        return NotFound("Image not found");
+        catch (Exception e)
+        {
+            return StatusCode(500, $"Intertal server error: {e}");
+        }
     }
-    
+
+    [HttpPost("teams"), DisableRequestSizeLimit]
+    // [RequestSizeLimit(2097152)] // Ограничение размера запроса (2 МБ)
+    // [RequestFormLimits(MultipartBodyLengthLimit = 2097152)] // Ограничение размера тела запроса (2 МБ)
+    public IActionResult UploadTeamAvatar()
+    {
+        try
+        {
+            var file = Request.Form.Files[0];
+            var folderName = Path.Combine("StaticFiles", "TeamsAvatar");
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+            if (file != null && file.Length > 0)
+            {
+                // проверяем на совпадение типов файлов, которые можно загружать
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName).Replace("\\", "/");
+                ;
+                //  using используемое для управления ресурсами,  После завершения блока using,
+                // ресурсы, выделенные для объекта FileStream, будут автоматически освобождены. 
+                // FileStream представляет поток файла для операций ввода-вывода с файлами. 
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                // возвращает путь к загруженному файлу
+                return Ok(new { imagePath = dbPath });
+            }
+            else
+            {
+                return BadRequest("Файл не найден");
+            }
+
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, $"Intertal server error: {e}");
+        }
+    }
+
 }

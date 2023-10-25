@@ -6,6 +6,7 @@
     <div class="user-banner-wrapper">
   <img src="{{user?.bannerUrl}}" class="user-banner"/>
     </div>
-  <button *ngIf="isOwner" [routerLink]="['/update-user', user?.id]" class="">Редактировать</button>
+  <button *ngIf="isOwner" class="">Редактировать</button>
   </div>
+  <a routerLink="/chat">GO to chat</a>
   </div>

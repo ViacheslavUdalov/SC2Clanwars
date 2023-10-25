@@ -22,19 +22,23 @@ public class TournamentDbModel
 
     [BsonElement("Teams")]
     [BsonRepresentation(BsonType.ObjectId)]
-    public List<string>? Teams { get; set; }
+    public HashSet<string>? Teams { get; set; }
     
     [BsonElement("Avatar")]
     public string? Avatar { get; set; } = string.Empty;
     
     [BsonElement("Players")]
     [BsonRepresentation(BsonType.ObjectId)] 
-    public List<string>? Players { get; set; }
+    public HashSet<string>? Players { get; set; }
     
     [BsonElement("CreatorId")]
     [BsonRepresentation(BsonType.String)] 
     public string? CreatorId { get; set; }
     
-//     [BsonIgnore] 
-// public ApplicationUser? Creator { get; set; }
+    public TournamentDbModel()
+    {
+        // Инициализируем массив игроков и команд как пустой
+        Players = new HashSet<string>();
+        Teams = new HashSet<string>();
+    }
 }

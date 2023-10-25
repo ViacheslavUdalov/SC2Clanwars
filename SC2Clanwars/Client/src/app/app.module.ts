@@ -21,6 +21,9 @@ import { ModalWindowComponent } from './Helpers/modal-window/modal-window.compon
 import { ModalWindowDirective } from './directives/modal-window.directive';
 import {UserComponent} from "./components/pages/user-page/user.component";
 import { UpdateUserPageComponent } from './components/pages/update-user-page/update-user-page.component';
+import { CreateTeamPageComponent } from './components/pages/create-team-page/create-team-page.component';
+import { TeamPageComponent } from './components/pages/team-page/team-page.component';
+import { ChatPageComponent } from './components/pages/chat-page/chatpage.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { UpdateUserPageComponent } from './components/pages/update-user-page/upd
     ModalWindowComponent,
     ModalWindowDirective,
     UserComponent,
-    UpdateUserPageComponent
+    UpdateUserPageComponent,
+    CreateTeamPageComponent,
+    TeamPageComponent,
+    ChatPageComponent
   ],
     imports: [
         BrowserModule,

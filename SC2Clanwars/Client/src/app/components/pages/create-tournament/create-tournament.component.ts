@@ -3,16 +3,13 @@ import {ITournament} from "../../../models/tournamentModel";
 import {ActivatedRoute, Router} from '@angular/router';
 import {TournamentsService} from "../../../services/tournaments.service";
 import {AllUsersDataService} from "../../../services/all-users-data.service";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {IUser} from "../../../models/IUser";
+import {UploadimagesService} from "../../../services/uploadimages.service";
 @Component({
   selector: 'app-create-tournament',
   templateUrl: './create-tournament.component.html',
   styleUrls: ['./create-tournament.component.less']
 })
 export class CreateTournamentComponent implements OnInit {
-  userId: string;
-  tournamentForm: FormGroup;
   tournament: ITournament = {
     id: '',
     name: '',
@@ -23,23 +20,11 @@ export class CreateTournamentComponent implements OnInit {
     creatorId: ''
   };
   isCreating: boolean = true;
-
+selectedFile: File;
   constructor(private tournamentService: TournamentsService,
               private router: Router,
               private route: ActivatedRoute,
-              private fb: FormBuilder,
-              private allUserDataService: AllUsersDataService) {
-    if (localStorage.getItem('userId')) {
-      this.userId = localStorage.getItem('userId') as string;
-    }
-    if (sessionStorage.getItem('userId')) {
-      this.userId = localStorage.getItem('userId') as string;
-    }
-    this.tournamentForm = this.fb.group({
-      name: ['', Validators.required],
-      prizePool: [''],
-      avatar: [''],
-    });
+              private uploadImages: UploadimagesService) {
   }
 
   ngOnInit() {
@@ -58,27 +43,42 @@ export class CreateTournamentComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.uploadFile(file);
+    if (event && event.target && event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+      this.uploadFile(this.selectedFile);
+      // console.log(this.selectedFile);
     }
   }
 
   uploadFile(file: File) {
-    const formData = new FormData();
-    formData.append('file', file, file.name);
+    if (file) {
+      this.uploadImages.uploadTournamentFile(file).subscribe(uploadedFile => {
+        this.loadTournamentAvatar();
+        // console.log(uploadedFile);
+      })
+    }
   }
-
+  loadTournamentAvatar() {
+    this.uploadImages.getTournamentAvatar(this.selectedFile.name).subscribe(loadedFile => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // reader.result содержит base64-кодированное изображение;
+        // console.log(loadedFile);
+        this.tournament.avatar = reader.result as string;
+      };
+      reader.readAsDataURL(loadedFile);
+    });
+  }
   onSubmit() {
     if (this.isCreating) {
-      if (this.tournamentForm.valid) {
-        const tournamentData = this.tournamentForm.value;
-        this.tournamentService.createTournament(tournamentData)
+      console.log(this.tournament)
+        this.tournamentService.createTournament(this.tournament)
           .subscribe((createdTournament: ITournament) => {
               this.tournament = createdTournament;
+            console.log(this.tournament)
               this.router.navigate([`/tournaments/${createdTournament.id}`])
             }
-          )}
+          )
       } else {
         // const {id, ...tournamentToCreate} = this.tournament;
         this.tournamentService.updateTournament(this.tournament.id, this.tournament)

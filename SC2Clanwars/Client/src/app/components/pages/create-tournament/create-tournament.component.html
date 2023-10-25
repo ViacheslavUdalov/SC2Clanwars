@@ -1,43 +1,19 @@
-<!--<form (submit)="onSubmit()">-->
-<!--  <div class="form-group">-->
-<!--    <label for="name">Название турнира:</label>-->
-<!--    <input type="text" id="name" name="name"-->
-<!--           [(ngModel)]="tournament.name"-->
-<!--           value="{{tournament?.name}}">-->
-<!--  </div>-->
-
-<!--  <div class="form-group">-->
-<!--    <label for="prizePool">Призовой фонд:</label>-->
-<!--    <input type="text" id="prizePool" name="prizePool"-->
-<!--           [(ngModel)]="tournament.prizePool" value="{{tournament?.prizePool}}"-->
-<!--    >-->
-<!--  </div>-->
-
-<!--  <div class="form-group">-->
-<!--    <label for="avatar">Ссылка на аватар:</label>-->
-<!--    <input type="text" id="avatar" name="avatar"-->
-<!--           [(ngModel)]="tournament.avatar"-->
-<!--           value="{{tournament?.avatar}}"-->
-<!--    >-->
-<!--  </div>-->
-
-<!--  <button  *ngIf="isCreating"type="submit">Создать турнир</button>-->
-<!--  <button *ngIf="!isCreating" type="submit">Обновить турнир</button>-->
-
-<!--</form>-->
-<form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
+<form (submit)="onSubmit()">
   <div class="form-group">
     <label for="name">Tournament Name:</label>
-    <input type="text" id="name" formControlName="name" required />
+    <input type="text" id="name" name="name" [(ngModel)] = "tournament.name" value="{{tournament?.name}}" required >
   </div>
   <div class="form-group">
     <label for="prizePool">Prize Pool:</label>
-    <input type="text" id="prizePool" formControlName="prizePool" />
+    <input type="text" id="prizePool" name="prizePool" [(ngModel)] = "tournament.prizePool" value="{{tournament?.prizePool}}">
   </div>
   <div class="form-group">
     <label for="avatar">Avatar URL:</label>
-    <input type="text" id="avatar" formControlName="avatar" />
+    <input type="file"  id="avatar"  (change)="onFileSelected($event)">
+    <div class="banner-wrapper">
+      <img *ngIf="tournament.avatar"  [src]="tournament.avatar" class="BannerImg">
+    </div>
   </div>
-   <button  *ngIf="isCreating"type="submit" [disabled]="tournamentForm.invalid">Создать турнир</button>
-    <button *ngIf="!isCreating" type="submit" [disabled]="tournamentForm.invalid">Обновить турнир</button>
+   <button  *ngIf="isCreating"type="submit" >Создать турнир</button>
+    <button *ngIf="!isCreating" type="submit" >Обновить турнир</button>
 </form>

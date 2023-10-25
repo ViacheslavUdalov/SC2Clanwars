@@ -15,10 +15,10 @@ export class AppComponent {
               ) {
     this.authService.useIsLoggedIn.subscribe((isAuth) => {
       this.isAuth = isAuth;
+      console.log( this.isAuth)
     });
     if (!this.isAuth) {
       this.router.navigate(['/'])
     }
-   }
-
+    this.authService.UserId$.subscribe()   }
 }

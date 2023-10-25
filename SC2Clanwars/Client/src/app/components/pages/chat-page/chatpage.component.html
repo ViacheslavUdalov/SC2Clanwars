@@ -1,0 +1,13 @@
+<div>
+  <h2>Received Messages:</h2>
+  <ul *ngFor="let message of ReceivedMessage">
+    <li >{{ message.message }}</li>
+    <li >{{ message.user }}</li>
+  </ul>
+</div>
+
+<div>
+  <h2>Send a Message:</h2>
+  <input [(ngModel)]="messageToSend" placeholder="Type a message" />
+  <button (click)="sendMessage()">Send</button>
+</div>

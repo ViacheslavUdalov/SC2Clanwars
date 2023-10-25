@@ -21,9 +21,11 @@ private modalWindow: ModalWindowService,
   });
   if (localStorage.getItem('userId') ) {
     this.userId = localStorage.getItem('userId') as string;
+    this.isAuth = true;
   }
   if (sessionStorage.getItem('userId')) {
     this.userId = localStorage.getItem('userId') as string;
+    this.isAuth = true;
   }
   if (localStorage.getItem('AccessToken') || sessionStorage.getItem('AccessToken') ) {
 this.isAuth = true;
@@ -35,7 +37,11 @@ this.isAuth = true;
     if (localStorage.getItem('userId')) {
       this.allUserService.GetOneUser(this.userId).subscribe(user => {
 this.currentUser = user;
+        this.isAuth = true;
       })
+    }
+    else {
+      this.isAuth = false;
     }
 
   }

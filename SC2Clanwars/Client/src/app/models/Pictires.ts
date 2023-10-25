@@ -9,3 +9,9 @@ export interface IBanners {
 export interface IBanner {
   imagePath: string;
 }
+export interface ITournamentAvatar {
+  imagePath: string;
+}
+  export interface ITeamAvatar {
+  imagePath: string;
+}

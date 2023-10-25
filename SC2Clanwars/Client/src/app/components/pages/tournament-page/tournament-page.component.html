@@ -5,6 +5,7 @@
   <span>{{creatorTournament?.userName}}</span>
   <span>{{creatorTournament?.email}}</span>
   </div>
+  <img [src]="tournament.avatar"/>
   <span>{{tournament.prizePool }}</span>
   <a [routerLink]="['/create-tournament/', tournament.id]">Обновить турнир</a>
   <button (click)="RemoveTournament(tournament.id)">Удалить</button>

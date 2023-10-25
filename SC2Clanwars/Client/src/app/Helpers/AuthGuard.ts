@@ -15,9 +15,9 @@ export class AuthGuard implements CanActivate {
   // проверяет авторизован ли пользователь по проверке, есть ли в localStorage токен
   // используется в роутинге приложения
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean{
-return this.authService.useIsLoggedIn.pipe(
-  map(isAuth => {
-    if (isAuth) {
+const isLoggedIn = localStorage.getItem('isLoggedIn') || sessionStorage.getItem('isLoggedIn');;
+
+    if (isLoggedIn === 'true') {
       this.isAuth = true;
       return true;
     } else {
@@ -25,7 +25,5 @@ return this.authService.useIsLoggedIn.pipe(
       this.isAuth = false;
       return false;
     }
-  })
-);
   }
 }

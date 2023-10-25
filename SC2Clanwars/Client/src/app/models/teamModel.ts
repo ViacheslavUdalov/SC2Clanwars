@@ -1,6 +1,9 @@
-﻿import {IPlayer} from "./playerModel";
+﻿import {IUser} from "./IUser";
 
 export interface ITeam {
   name: string,
-  players: Array<IPlayer>,
+  players: Array<string>,
+  creatorId: string,
+  id: string,
+  avatar: string
 }

@@ -11,9 +11,13 @@ export class ModalWindowDirective {
               private authService : AuthService) { }
 @HostListener('mouseenter', ['$event'])
   onMouseEnter(event: MouseEvent) {
-    if (!this.authService.useIsLoggedIn) {
-      this.modalService.show(event)
-    }
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      if (!isLoggedIn) {
+        this.modalService.show(event)
+      }
+    })
+
+
 
 }
   @HostListener('mouseleave', ['$event'])

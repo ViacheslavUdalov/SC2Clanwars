@@ -15,10 +15,13 @@
     <a
       [ngClass]="{'Link': true, 'inactive-link' : !isAuth}"
        routerLink="create-tournament" appShowModalWindow>Create Tournament</a>
+    <a
+      [ngClass]="{'Link': true, 'inactive-link' : !isAuth}"
+      routerLink="create-team" appShowModalWindow>Create Team</a>
     <a *ngIf="!isAuth" class="Link" routerLink="registration">Registration</a>
     <a *ngIf="!isAuth" class="Link" routerLink="login">Login</a>
   </nav>
-  <div class="wrapper-user-data" [routerLink]="['/update-user', currentUser?.id]">
+  <div *ngIf="currentUser" class="wrapper-user-data" [routerLink]="['/users', currentUser?.id]">
     <img [src]="currentUser?.portraitUrl" class="navigation-user-portrait"/>
     <span class="navigation-user-name">{{currentUser?.userName}}</span>
     <button *ngIf="isAuth" (click)="Logout()" class="logout-button">Выйти</button>

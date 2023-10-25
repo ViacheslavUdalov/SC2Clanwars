@@ -58,7 +58,7 @@ onFileSelected(event: any):void {
 }
 onUploadBanner(file: File):void {
     if (file) {
-      this.fileService.uploadFile(file).pipe(
+      this.fileService.uploadUserBannerFile(file).pipe(
         catchError((error) => {
           console.error('Ошибка при загрузке файла:', error);
           return [];
@@ -71,7 +71,7 @@ onUploadBanner(file: File):void {
     }
 }
   loadImage(): void {
-    this.fileService.getImage(this.selectedFile.name).subscribe((imageData: Blob) => {
+    this.fileService.getBannerImage(this.selectedFile.name).subscribe((imageData: Blob) => {
       const reader = new FileReader();
       reader.onload = () => {
         // reader.result содержит base64-кодированное изображение

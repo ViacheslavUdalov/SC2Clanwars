@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {TokenExpiresService} from "../../services/tokenExpires.service";
 import {ModalWindowService} from "../../services/modal-window.service";
 
 @Component({
@@ -9,12 +8,13 @@ import {ModalWindowService} from "../../services/modal-window.service";
 })
 export class ModalWindowComponent {
   modalPosition: { top: string, left: string };
-  showModal = false;
+  showModal : boolean
 
   constructor(private modalService: ModalWindowService) {
     this.modalService.showModal$.subscribe((show) => {
       this.modalPosition = this.modalService.getModalPosition();
         this.showModal = show;
+      console.log( this.showModal )
       }
     )
   }
