@@ -2,7 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ChatServiceService} from "../../../services/chat-service.service";
 import {IUser} from "../../../models/IUser";
 import {AllUsersDataService} from "../../../services/all-users-data.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {TeamServiceService} from "../../../services/team-service.service";
+import {ITeam} from "../../../models/teamModel";
 
 @Component({
   selector: 'app-chatpage',
@@ -13,10 +15,14 @@ export class ChatPageComponent implements OnInit{
   ReceivedMessage: any[];
   messageToSend: string;
   userId: string
-  user: IUser
+  user: IUser;
+  team: ITeam;
+  teamId: string | null;
 constructor(private chatService: ChatServiceService,
             private allUsersdata: AllUsersDataService,
-            private router: Router) {
+            private router: Router,
+            private teamService: TeamServiceService,
+            private route: ActivatedRoute) {
     if (localStorage.getItem('userId')) {
       this.userId = localStorage.getItem('userId') as string
     }
@@ -28,6 +34,18 @@ ngOnInit() {
     this.allUsersdata.GetOneUser(this.userId).subscribe(gettingUser => {
       this.user = gettingUser;
     })
+  this.route.paramMap.subscribe(params => {
+    this.teamId = params.get('id');
+    if (this.teamId) {
+      this.teamService.getOneTeam(this.teamId).subscribe(gettingTeam => {
+        this.team = gettingTeam;
+        console.log(this.team);
+      })
+    }
+  })
+  if (this.team) {
+    this.chatService.joinRoom(this.userId, this.team.name);
+  }
   if (this.chatService.connection.state === 'Connected') {
     this.chatService.messages$.subscribe(res => {
       console.log(this.ReceivedMessage)
@@ -52,7 +70,4 @@ sendMessage() {
       console.log(err);
     })
   }
-   // ngOnDestroy() {
-   //  this.leaveChat();
-   // }
 }

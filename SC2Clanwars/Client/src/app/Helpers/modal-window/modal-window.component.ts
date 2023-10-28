@@ -14,7 +14,7 @@ export class ModalWindowComponent {
     this.modalService.showModal$.subscribe((show) => {
       this.modalPosition = this.modalService.getModalPosition();
         this.showModal = show;
-      console.log( this.showModal )
+      // console.log( this.showModal )
       }
     )
   }

@@ -75,7 +75,7 @@ checkForNewPlayers() {
 }
 JoinToChat() {
     this.chatService.joinRoom(this.CurrentUser.userName, this.team.name).then(() => {
-      this.router.navigate(['/chat']);
+      this.router.navigate([`team/${this.team.id}/chat`]);
     }).catch((err) => {
       console.log(err);
     })

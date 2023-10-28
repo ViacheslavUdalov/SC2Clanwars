@@ -9,51 +9,38 @@ import {IUser} from "../../models/IUser";
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.less']
 })
-export class NavigationComponent implements OnInit{
-  isAuth : boolean;
+export class NavigationComponent implements OnInit {
+  isAuth: boolean;
   currentUser: IUser;
   userId: string;
-constructor(private authService: AuthService,
-private modalWindow: ModalWindowService,
-           private allUserService: AllUsersDataService) {
-  this.authService.useIsLoggedIn.subscribe(isAuth => {
-    this.isAuth = isAuth;
-  });
-  if (localStorage.getItem('userId') ) {
-    this.userId = localStorage.getItem('userId') as string;
-    this.isAuth = true;
+
+  constructor(
+    private authService: AuthService,
+    private modalWindow: ModalWindowService,
+    private allUserService: AllUsersDataService) {
+    this.authService.useIsLoggedIn.subscribe(isAuth => {
+      this.isAuth = isAuth;
+    });
+    this.isAuth = !!(localStorage.getItem('userId') || sessionStorage.getItem('userId'));
+    this.userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || '';
   }
-  if (sessionStorage.getItem('userId')) {
-    this.userId = localStorage.getItem('userId') as string;
-    this.isAuth = true;
-  }
-  if (localStorage.getItem('AccessToken') || sessionStorage.getItem('AccessToken') ) {
-this.isAuth = true;
-  } else {
-    this.isAuth = false;
-  }
-}
+
   ngOnInit() {
-    if (localStorage.getItem('userId')) {
+    // console.log(this.currentUser);
+    if (this.userId) {
       this.allUserService.GetOneUser(this.userId).subscribe(user => {
-this.currentUser = user;
-        this.isAuth = true;
+        this.currentUser = user;
+        // console.log(this.currentUser)
+
       })
     }
-    else {
-      this.isAuth = false;
-    }
-
   }
+
   Logout() {
     if (localStorage.getItem('AccessToken')) {
       this.authService.logoutFromLocalStorage()
     } else if (sessionStorage.getItem('AccessToken')) {
       this.authService.logoutFromSessionStorage();
     }
-
+  }
 }
-
-}
-// (mouseenter)="showModal($event)"
-// [ngClass]="{'inactive-link' : !tokenExist}"

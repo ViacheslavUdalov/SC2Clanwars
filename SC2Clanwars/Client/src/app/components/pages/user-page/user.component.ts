@@ -15,7 +15,7 @@ export class UserComponent implements OnInit{
   LocalId: string | null
   constructor(private allUserService: AllUsersDataService,
               private route: ActivatedRoute) {
-   this.LocalId = localStorage.getItem('userId');
+   this.LocalId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || '';
 
     console.log(this.isOwner)
   }

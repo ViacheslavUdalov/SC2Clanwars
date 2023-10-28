@@ -20,5 +20,5 @@ export class AppComponent {
     if (!this.isAuth) {
       this.router.navigate(['/'])
     }
-    this.authService.UserId$.subscribe()   }
+  }
 }
