@@ -11,7 +11,4 @@ export class GetPicturesService {
   GetPortraitsJson(): Observable<IPortraits[]> {
     return this.http.get<IPortraits[]>('http://localhost:5034/assets/portraits.json');
   }
-  // GetBannersJson(): Observable<IBanners[]> {
-  //   return this.http.get<IBanners[]>('assets/banners.json');
-  // }
 }

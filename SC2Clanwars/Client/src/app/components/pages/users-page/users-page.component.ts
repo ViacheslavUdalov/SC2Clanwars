@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AllUsersDataService} from "../../../services/all-users-data.service";
 import {IUser} from "../../../models/IUser";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-users-page',
@@ -17,4 +18,5 @@ this.usersData.GetAllUsers().subscribe(Users => {
   console.log(Users);
 })
 }
+
 }

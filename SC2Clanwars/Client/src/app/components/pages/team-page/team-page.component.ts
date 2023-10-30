@@ -24,12 +24,7 @@ export class TeamPageComponent implements OnInit{
               private allDataUser: AllUsersDataService,
               private chatService: ChatServiceService
   ) {
-    if (localStorage.getItem('userId')) {
-      this.userId = localStorage.getItem('userId') as string
-    }
-    if (sessionStorage.getItem('userId')) {
-      this.userId = sessionStorage.getItem('userId') as string
-    }
+      this.userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') as string
   }
   ngOnInit() {
     this.chatService.start();

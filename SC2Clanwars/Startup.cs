@@ -39,10 +39,10 @@ namespace SC2Clanwars
                 var database = provider.GetRequiredService<IMongoDatabase>();
                 return database.GetCollection<ApplicationUser>("Users");
             });
-            services.AddScoped<IMongoCollection<ChatMessage>>(provider =>
+            services.AddScoped<IMongoCollection<ChatMessageInTeam>>(provider =>
             {
                 var database = provider.GetRequiredService<IMongoDatabase>();
-                return database.GetCollection<ChatMessage>("ChatMessage");
+                return database.GetCollection<ChatMessageInTeam>("ChatMessage");
             });
             services.AddScoped<UsersRepository>();
             services.AddScoped<TeamsRepository>();

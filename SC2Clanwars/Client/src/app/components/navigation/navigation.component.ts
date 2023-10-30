@@ -11,7 +11,7 @@ import {IUser} from "../../models/IUser";
 })
 export class NavigationComponent implements OnInit {
   isAuth: boolean;
-  currentUser: IUser;
+  currentUser: IUser | null;
   userId: string;
 
   constructor(
@@ -22,18 +22,12 @@ export class NavigationComponent implements OnInit {
       this.isAuth = isAuth;
     });
     this.isAuth = !!(localStorage.getItem('userId') || sessionStorage.getItem('userId'));
-    this.userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || '';
   }
 
   ngOnInit() {
-    // console.log(this.currentUser);
-    if (this.userId) {
-      this.allUserService.GetOneUser(this.userId).subscribe(user => {
+      this.allUserService.currentUser.subscribe(user => {
         this.currentUser = user;
-        // console.log(this.currentUser)
-
       })
-    }
   }
 
   Logout() {

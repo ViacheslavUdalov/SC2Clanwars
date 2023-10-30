@@ -15,6 +15,7 @@ import {UpdateUserPageComponent} from "./components/pages/update-user-page/updat
 import {TeamPageComponent} from "./components/pages/team-page/team-page.component";
 import {CreateTeamPageComponent} from "./components/pages/create-team-page/create-team-page.component";
 import { ChatPageComponent} from "./components/pages/chat-page/chatpage.component";
+import {ChatUsersPageComponent} from "./components/pages/chat-users-page/chat-users-page.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -34,7 +35,7 @@ const routes: Routes = [
   {path: 'login', component: LoginPageComponent},
   {path: 'update-user/:id', component: UpdateUserPageComponent, canActivate: [AuthGuard]},
   {path: 'team/:id/chat', component: ChatPageComponent, canActivate: [AuthGuard]},
-  {path: 'user/:id/chat', component: ChatPageComponent, canActivate: [AuthGuard]},
+  {path: 'user/:id/chat', component: ChatUsersPageComponent, canActivate: [AuthGuard]},
   {path: 'tournament/:id/chat', component: ChatPageComponent, canActivate: [AuthGuard]}
 ];
 

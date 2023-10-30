@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {IBanner, ITeamAvatar, ITournamentAvatar} from "../models/Pictires";
-import {ITeam} from "../models/teamModel";
 
 @Injectable({
   providedIn: 'root'

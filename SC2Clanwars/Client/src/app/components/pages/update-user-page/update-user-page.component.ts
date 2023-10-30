@@ -38,7 +38,7 @@ ngOnInit() {
       this.UserId = params.get('id');
     })
   if (this.UserId) {
-    this.userDataService.GetOneUser(this.UserId).subscribe(currentUser => {
+    this.userDataService.GetOneCurrentOwnerUser(this.UserId).subscribe(currentUser => {
 this.CurrentUser = currentUser;
       console.log(currentUser);
     });
@@ -46,7 +46,7 @@ this.CurrentUser = currentUser;
   // реализуем получение данных из корневого json файла в сервисе
   this.getPicturesService.GetPortraitsJson().subscribe((data: IPortraits[]) => {
     this.Portraits = data;
-    console.log(data);
+    // console.log(data);
   });
 }
 onFileSelected(event: any):void {
@@ -64,9 +64,7 @@ onUploadBanner(file: File):void {
           return [];
         })
       ).subscribe((uploadedFile: IBanner) => {
-        // this.UploadedFile = uploadedFile.imagePath;
         this.loadImage();
-        console.log(uploadedFile);
       })
     }
 }
@@ -74,8 +72,8 @@ onUploadBanner(file: File):void {
     this.fileService.getBannerImage(this.selectedFile.name).subscribe((imageData: Blob) => {
       const reader = new FileReader();
       reader.onload = () => {
-        // reader.result содержит base64-кодированное изображение
-        this.CurrentUser.bannerUrl= reader.result as string;
+        // Преобразование Blob в base64
+        this.CurrentUser.bannerUrl = reader.result as string;
       };
       reader.readAsDataURL(imageData);
     });

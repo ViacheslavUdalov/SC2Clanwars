@@ -8,5 +8,5 @@
     </div>
   <button *ngIf="isOwner" class="" [routerLink]="['/update-user/', user?.id]" >Редактировать</button>
   </div>
-  <a routerLink="/chat" *ngIf="!isOwner">GO to chat</a>
+  <button *ngIf="!isOwner" (click)="GoToChatWithUser()">go to chat</button>
   </div>
