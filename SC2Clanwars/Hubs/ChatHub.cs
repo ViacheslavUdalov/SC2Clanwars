@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 using SC2Clanwars.DbContextModels;
 using SC2Clanwars.SignalRModel;
@@ -12,17 +10,19 @@ public class ChatHub : Hub
     private readonly Dictionary<string, UserRoomConnection> _connections;
     private readonly IMongoCollection<ChatMessageInTeam> _mongoCollection;
     private readonly IMongoDatabase _database;
-    public ChatHub(Dictionary<string, UserRoomConnection> connections, IMongoCollection<ChatMessageInTeam> mongoCollection, IMongoDatabase database)
+    public ChatHub(Dictionary<string, UserRoomConnection> connections,
+        IMongoCollection<ChatMessageInTeam> mongoCollection, IMongoDatabase database
+    )
     {
         _connections = connections;
         _mongoCollection = mongoCollection;
         _database = database;
     }
 
-    private async Task TrimMessages(string room, int maxMessages)
+    private async Task TrimMessages(string room, int maxMessages, IMongoCollection<ChatMessageInTeam> collection)
     {
         var filter = Builders<ChatMessageInTeam>.Filter.Eq("Room", room);
-        var chatMessages = await _mongoCollection.Find(filter)
+        var chatMessages = await collection.Find(filter)
             .SortByDescending(mes => mes.Timestamp)
             .Skip(maxMessages)
             .ToListAsync();
@@ -36,8 +36,15 @@ public class ChatHub : Hub
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.Room!);
         _connections[Context.ConnectionId] = userConnection;
+        var chatMessage = new ChatMessageInTeam
+        {
+            User = userConnection.User,
+            Message = "has joined the Group",
+            Timestamp = DateTime.Now,
+            Room = userConnection.Room
+        };
         await Clients.Groups(userConnection.Room!)
-            .SendAsync("ReceiveMessage", "Let's Program", $"{userConnection.User} has joined the Group", DateTime.Now);
+            .SendAsync("ReceiveMessage", chatMessage);
         await SendConnectedUser(userConnection.Room!);
     }
 
@@ -45,6 +52,9 @@ public class ChatHub : Hub
     {
         if (_connections.TryGetValue(Context.ConnectionId, out UserRoomConnection roomConnection))
         {
+            var dialogId = roomConnection.Room;
+            // var collectionNames = await _database.ListCollectionNamesAsync();
+            // var collectionExist = collectionNames.ToList().Contains(dialogId);
             var chatMessage = new ChatMessageInTeam
             {
                 User = roomConnection.User,
@@ -52,17 +62,18 @@ public class ChatHub : Hub
                 Timestamp = DateTime.Now,
                 Room = roomConnection.Room
             };
-            await _mongoCollection.InsertOneAsync(chatMessage);
+            var collection =  _database.GetCollection<ChatMessageInTeam>(dialogId);
+            await collection.InsertOneAsync(chatMessage);
             int maxMessages = 300;
-            long messagesCount = _mongoCollection.CountDocuments(
+            long messagesCount = collection.CountDocuments(
                 Builders<ChatMessageInTeam>.Filter.Eq("Room", roomConnection.Room));
             if (maxMessages > messagesCount)
             {
-                await TrimMessages(roomConnection.Room, maxMessages);
+                await TrimMessages(roomConnection.Room, maxMessages, collection);
             }
 
             await Clients.Groups(roomConnection.Room!)
-                .SendAsync("ReceiveMessage", roomConnection.User, message, DateTime.Now);
+                .SendAsync("ReceiveMessage", chatMessage);
         }
     }
 
@@ -73,8 +84,15 @@ public class ChatHub : Hub
             return base.OnDisconnectedAsync(exp);
         }
         _connections.Remove(Context.ConnectionId);
+        var chatMessage = new ChatMessageInTeam
+        {
+            User = roomConnection.User,
+            Message = "has left the Group",
+            Timestamp = DateTime.Now,
+            Room = roomConnection.Room
+        };
         Clients.Groups(roomConnection.Room!)
-            .SendAsync("ReceiveMessage", "let's Program", $"{roomConnection.User} has left the Group", DateTime.Now);
+            .SendAsync("ReceiveMessage",  chatMessage);
         SendConnectedUser(roomConnection.Room!);
         return base.OnDisconnectedAsync(exp);
     }
@@ -87,40 +105,15 @@ public class ChatHub : Hub
         return Clients.Groups(room).SendAsync("ConnectedUser", users);
     }
 
-    public async Task SendMessageToUniqueUser(string senderId, string receiverId, string message)
+    public async Task GetAllMessagesFromDb(string room)
     {
-        try
+        if (_connections.TryGetValue(Context.ConnectionId, out UserRoomConnection roomConnection))
         {
-            string dialogsId = GenerateIdForDialogs(senderId, receiverId);
-            var collection = _database.GetCollection<ChatMessageWithUser>(dialogsId);
-           await collection.InsertOneAsync(new ChatMessageWithUser
-            {
-                Id = new ObjectId(),
-                senderId = senderId,
-                receiverId = receiverId,
-                message = message,
-                Timestamp = DateTime.Now
-            });
-            await Clients.Client(senderId).SendAsync("ReceiveUserMessage", receiverId, senderId, message);
-            await Clients.Client(receiverId).SendAsync("ReceiveUserMessage", senderId, receiverId, message);
+            var collection = _database.GetCollection<ChatMessageInTeam>(room);
+            var messages = await collection.Find(_ => true).ToListAsync();
+            await Clients.Groups(roomConnection.Room!)
+                .SendAsync("ReceivedMessages", messages);
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        } 
-    }
-
-    private string GenerateIdForDialogs(string senderId, string receiverId)
-    {
-        return $"{senderId}_{receiverId}";
-    }
-
-    public async Task GetAllMessagesBetweenUsers(string senderId, string receiverId)
-    {
-        var dialogId = GenerateIdForDialogs(senderId, receiverId);
-        var collection = _database.GetCollection<ChatMessageWithUser>(dialogId);
-        var messages = await collection.Find(_ => true).ToListAsync();
-        await Clients.Client(senderId).SendAsync("ReceiveUsersMessages", messages);
+       
     }
 }

@@ -6,7 +6,7 @@ using SC2Clanwars.DbContextModels;
 using SC2Clanwars.Repositories;
 
 namespace SC2Clanwars.Controllers;
-[Authorize]
+// [Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TeamsController : ControllerBase

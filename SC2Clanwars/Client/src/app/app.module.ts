@@ -10,7 +10,6 @@ import { TeamsPageComponent } from './components/pages/teams-page/teams-page.com
 import {AboutPageComponent} from "./components/pages/about-page/about-page.component";
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
 import { UsersPageComponent } from './components/pages/users-page/users-page.component';
-import { LoadingPipe } from './components/Helpers/loading.pipe';
 import { CreateTournamentComponent } from './components/pages/create-tournament/create-tournament.component';
 import {TournamentsPageComponent} from "./components/pages/tournaments-page/tournaments-page.component";
 import { TournamentPageComponent } from './components/pages/tournament-page/tournament-page.component';
@@ -25,6 +24,8 @@ import { CreateTeamPageComponent } from './components/pages/create-team-page/cre
 import { TeamPageComponent } from './components/pages/team-page/team-page.component';
 import { ChatPageComponent } from './components/pages/chat-page/chatpage.component';
 import { ChatUsersPageComponent } from './components/pages/chat-users-page/chat-users-page.component';
+import {FooterComponent} from "./components/pages/footer-page/footer.component";
+import { LoadingComponent } from './Helpers/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,6 @@ import { ChatUsersPageComponent } from './components/pages/chat-users-page/chat-
   TeamsPageComponent,
     HomePageComponent,
     UsersPageComponent,
-    LoadingPipe,
     CreateTournamentComponent,
     TournamentPageComponent,
     AuthenticationPageComponent,
@@ -49,7 +49,9 @@ import { ChatUsersPageComponent } from './components/pages/chat-users-page/chat-
     CreateTeamPageComponent,
     TeamPageComponent,
     ChatPageComponent,
-    ChatUsersPageComponent
+    ChatUsersPageComponent,
+    FooterComponent,
+    LoadingComponent
   ],
     imports: [
         BrowserModule,

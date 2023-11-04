@@ -1,3 +1,4 @@
+<app-loading *ngIf="!users"></app-loading>
 <div class="Container">
 <div *ngFor="let user of users">
  <div class="liLink" [routerLink]="['/users', user.id]">
@@ -5,7 +6,10 @@
   {{user.userName}}
 </h2>
     <img src="{{user.portraitUrl}}">
-    <img src="{{user.bannerUrl}}">
+   <div class="bannerUrlWrapper">
+     <img src="{{user.bannerUrl}}" class="bannerUrl">
+   </div>
+
     <span>{{user.fullName}}</span>
     <span>{{user.email}}</span>
   </div>

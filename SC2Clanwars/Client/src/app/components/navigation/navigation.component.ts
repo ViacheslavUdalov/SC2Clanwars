@@ -13,6 +13,7 @@ export class NavigationComponent implements OnInit {
   isAuth: boolean;
   currentUser: IUser | null;
   userId: string;
+  isLoading: boolean
 
   constructor(
     private authService: AuthService,
@@ -25,16 +26,22 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
       this.allUserService.currentUser.subscribe(user => {
         this.currentUser = user;
+        console.log('currentUser' + this.currentUser?.userName)
       })
+this.isLoading = false;
   }
 
   Logout() {
+    this.isLoading = true;
     if (localStorage.getItem('AccessToken')) {
       this.authService.logoutFromLocalStorage()
     } else if (sessionStorage.getItem('AccessToken')) {
       this.authService.logoutFromSessionStorage();
     }
+    this.currentUser = null;
+    this.isLoading = false;
   }
 }

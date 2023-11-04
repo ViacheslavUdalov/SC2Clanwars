@@ -1,9 +1,10 @@
 <div>
-  <h2>Received Messages:</h2>
-  <ul *ngFor="let message of ReceivedMessage">
-    <li >{{ message.message }}</li>
-    <li >{{ message.user }}</li>
-  </ul>
+  <span *ngIf="!ReceivedMessages || ReceivedMessages.length === 0 "> Здесь пока ещё нет никаких сообщений, вы можете начать диалог</span>
+  <div *ngFor="let message of ReceivedMessages">
+    <span >{{ message.user }}</span>
+    <span >{{ message.message }}</span>
+
+  </div>
 </div>
 
 <div>

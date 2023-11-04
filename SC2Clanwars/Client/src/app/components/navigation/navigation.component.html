@@ -21,7 +21,9 @@
     <a *ngIf="!isAuth" class="Link" routerLink="registration">Registration</a>
     <a *ngIf="!isAuth" class="Link" routerLink="login">Login</a>
   </nav>
+  <div *ngIf="!currentUser">loading</div>
   <div *ngIf="currentUser" class="wrapper-user-data" [routerLink]="['/users', currentUser?.id]">
+    <div *ngIf="isLoading"> loading</div>
     <img [src]="currentUser?.portraitUrl" class="navigation-user-portrait"/>
     <span class="navigation-user-name">{{currentUser?.userName}}</span>
     <button *ngIf="isAuth" (click)="Logout()" class="logout-button">Выйти</button>

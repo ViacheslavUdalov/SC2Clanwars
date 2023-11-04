@@ -2,20 +2,22 @@
 using MongoDbGenericRepository.Attributes;
 
 namespace SC2Clanwars.DbContextModels;
-[CollectionName("ChatMessage")]
+
+[Serializable]
 public class ChatMessageInTeam
 {
     public ObjectId Id { get; set; }
-    public string User { get; set; }
-    public string Message { get; set; }
+    public string User { get; set; } = string.Empty;
+    public string Message { get; set; } = string.Empty;
     public DateTime Timestamp { get; set; }
-    public string Room { get; set; }
+    public string Room { get; set; } = string.Empty;
 }
+[Serializable]
 public class ChatMessageWithUser
 {
     public ObjectId Id { get; set; }
-    public string senderId { get; set; }
-    public string receiverId { get; set; }
+    public string SenderId { get; set; } = string.Empty;
+    public string ReceiverId { get; set; } = string.Empty;
     public DateTime Timestamp { get; set; }
-    public string message { get; set; }
+    public string Message { get; set; } = string.Empty;
 }

@@ -142,6 +142,7 @@ namespace SC2Clanwars
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub>("/chathub");
+                endpoints.MapHub<ChatBetweenUsersHub>("/chatbetweenusershub");
                 endpoints.MapControllers();
             });
         }

@@ -5,7 +5,6 @@ using SC2Clanwars.DbContextModels;
 using SC2Clanwars.Repositories;
 
 namespace SC2Clanwars.Controllers;
-[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase

@@ -5,6 +5,7 @@ import {AllUsersDataService} from "../../../services/all-users-data.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TeamServiceService} from "../../../services/team-service.service";
 import {ITeam} from "../../../models/teamModel";
+import {ITeamChat} from "../../../models/chatMessages";
 
 @Component({
   selector: 'app-chatpage',
@@ -12,7 +13,7 @@ import {ITeam} from "../../../models/teamModel";
   styleUrls: ['./chatpage.component.less']
 })
 export class ChatPageComponent implements OnInit{
-  ReceivedMessage: any[];
+  ReceivedMessages: ITeamChat[];
   messageToSend: string;
   userId: string
   user: IUser;
@@ -30,12 +31,14 @@ ngOnInit() {
     this.allUsersdata.GetOneUser(this.userId).subscribe(gettingUser => {
       this.user = gettingUser;
     })
+
   this.route.paramMap.subscribe(params => {
     this.teamId = params.get('id');
     if (this.teamId) {
       this.teamService.getOneTeam(this.teamId).subscribe(gettingTeam => {
         this.team = gettingTeam;
         console.log(this.team);
+        this.chatService.getAllMessagesFromBd(this.team.name)
       })
     }
   })
@@ -44,15 +47,15 @@ ngOnInit() {
   }
   if (this.chatService.connection.state === 'Connected') {
     this.chatService.messages$.subscribe(res => {
-      console.log(this.ReceivedMessage)
-      this.ReceivedMessage = res;
+      console.log(this.ReceivedMessages)
+      this.ReceivedMessages = res;
     });
   }else {
     console.log('Соединение не установлено')
   }
 }
 sendMessage() {
-  this.chatService.sendMessage(this.messageToSend).then(() => {
+  this.chatService.sendMessage(this.messageToSend).then((messageId :string) => {
     console.log(this.messageToSend)
     this.messageToSend = '';
   }).catch((err) => {

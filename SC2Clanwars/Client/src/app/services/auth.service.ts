@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {TokenExpiresService} from "./tokenExpires.service";
+import {IUser} from "../models/IUser";
+import {AllUsersDataService} from "./all-users-data.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public UserId$ = new BehaviorSubject<string>('');
-  constructor(private token: TokenExpiresService) {
+  private userId: string
+  constructor(private token: TokenExpiresService,
+              private allUsersData: AllUsersDataService,
+              private router: Router) {
     // реализуем обязательно в констуркторе, что эти действия выполнялись при инициализации сервиса
     if (localStorage.getItem('AccessToken')) {
       this.isLoggedIn$.next(true);
@@ -30,30 +35,32 @@ export class AuthService {
   localStorage.setItem('userId', userId);
   localStorage.setItem('isLoggedIn', 'true');
   this.isLoggedIn$.next(true);
+  this.allUsersData.GetOneCurrentOwnerUser(userId).subscribe((user: IUser) => {
+    console.log(user);
+  });
 }
 logoutFromLocalStorage() {
   localStorage.clear();
   this.isLoggedIn$.next(false);
+  this.router.navigate(['/']);
 }
   loginWithSessionStorage(token: string, tokenExpires: string, userId: string)
   {
     sessionStorage.setItem('AccessToken', token);
     sessionStorage.setItem('AccessTokenExpires', tokenExpires);
-    sessionStorage.setItem('userId', userId);
+     sessionStorage.setItem('userId', userId);
     sessionStorage.setItem('isLoggedIn', 'true');
-    this.isLoggedIn$.next(true);
+    this.isLoggedIn$.next(true)
+    this.allUsersData.GetOneCurrentOwnerUser(userId).subscribe((user: IUser) => {
+      console.log(user);
+    });
   }
   logoutFromSessionStorage() {
     sessionStorage.clear();
     this.isLoggedIn$.next(false);
+    this.router.navigate(['/']);
   }
   checkIsThereUserIdInBothStorage() {
-    if (localStorage.getItem('userId')) {
-      this.UserId$.next(localStorage.getItem('userId') as string)
-    }
-    if (sessionStorage.getItem('userId')) {
-      this.UserId$.next(sessionStorage.getItem('userId') as string)
-    }
     if (localStorage.getItem('AccessToken') && sessionStorage.getItem('AccessToken')) {
       localStorage.clear();
       sessionStorage.clear();

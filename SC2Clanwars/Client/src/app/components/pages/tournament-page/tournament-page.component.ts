@@ -12,7 +12,7 @@ import {IUser} from "../../../models/IUser";
 })
 export class TournamentPageComponent implements OnInit{
 tournament: ITournament;
-creatorTournament: IUser;
+creatorTournament: IUser | null;
   constructor(
     private tournamentsService : TournamentsService,
   private route : ActivatedRoute,
@@ -29,7 +29,7 @@ creatorTournament: IUser;
           this.tournament = tournaments;
           console.log(this.tournament)
           if (this.tournament.creatorId) {
-            this.allUserData.GetOneUser(this.tournament.creatorId).subscribe(currentIUser => {
+            this.allUserData.currentUser.subscribe(currentIUser => {
               this.creatorTournament = currentIUser;
             })
           }

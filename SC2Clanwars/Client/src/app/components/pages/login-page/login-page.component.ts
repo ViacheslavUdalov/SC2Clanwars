@@ -3,6 +3,7 @@ import {ILogin, IResultSuccessLogin} from "../../../models/IUser";
 import {UsersService} from "../../../services/users.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
+import {AllUsersDataService} from "../../../services/all-users-data.service";
 
 @Component({
   selector: 'app-login-page',
@@ -18,7 +19,7 @@ export class LoginPageComponent {
   private rememberMe: boolean;
   constructor(private usersService : UsersService,
               private router: Router,
-              private authService: AuthService) {}
+              private authService: AuthService              ) {}
   onSubmit() {
     this.usersService.Login(this.User).subscribe({
       next: (response: IResultSuccessLogin) => {

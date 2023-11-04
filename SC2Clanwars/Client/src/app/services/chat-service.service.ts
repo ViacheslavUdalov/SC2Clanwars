@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HubConnectionBuilder} from "@microsoft/signalr";
-import {IUser} from "../models/IUser";
 import {BehaviorSubject} from "rxjs";
+import {ITeamChat} from "../models/chatMessages";
 @Injectable({
   providedIn: 'root'
 })
 export class ChatServiceService {
-  public messages$ = new BehaviorSubject<any>([]);
+  public messages$ = new BehaviorSubject<ITeamChat[]>([]);
   public users$ = new BehaviorSubject<string[]>([]);
-  public messages: any[] = [];
+  public messages: ITeamChat[] = [];
   public users: string[] = [];
   public connection  =
     new HubConnectionBuilder()
@@ -16,18 +16,24 @@ export class ChatServiceService {
       .build();
   constructor() {
     this.start();
+    this.connection.on("ReceivedMessages", (messages: ITeamChat[]) => {
+      this.messages$.next(messages);
+      this.messages = messages;
+      console.log(messages)
+    });
     this.connection.on("ReceiveMessage",
-      (user: string, message: string, messageTime: string) => {
-        console.log("User: ", user);
-        console.log("message: ", message);
-        console.log("messageTime: ", messageTime);
-        this.messages = [...this.messages, {user, message, messageTime}];
-        console.log(this.messages)
+      (message: ITeamChat) => {
+        // console.log("User: ", user);
+        // console.log("message: ", message);
+        // console.log("messageTime: ", messageTime);
+        this.messages = [...this.messages, message];
+        console.log( this.messages)
         this.messages$.next(this.messages);
       });
     this.connection.on("ConnectedUser", (users: string[]) => {
       this.users$.next(users)
-    })
+    });
+
   }
  //start connection
   public async start() {
@@ -44,8 +50,12 @@ export class ChatServiceService {
    await this.connection.invoke('JoinRoom', {user, room})
   };
   // send message
-  public async sendMessage(message: string) {
-   await this.connection.invoke('SendMessage', message)
+  public async sendMessage(message: string):Promise<string> {
+  return  await this.connection.invoke('SendMessage', message)
+  }
+  // getAllMessagesFromBd
+  public async getAllMessagesFromBd(room: string) : Promise<ITeamChat[]> {
+   return  await this.connection.invoke('GetAllMessagesFromDb', room)
   }
   // leave chat
   public async leaveChat() {
