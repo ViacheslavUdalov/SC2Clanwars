@@ -8,7 +8,7 @@ import {ITournament} from "../models/tournamentModel";
   providedIn: 'root'
 })
 export class TournamentsService {
-  private apiURL = "http://localhost:5034/api/tournaments";
+  private apiURL = "https://localhost:7034/api/tournaments";
 private JWTtoken: string | null;
 private headers: HttpHeaders;
   constructor(

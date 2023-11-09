@@ -7,8 +7,8 @@ import {IBanner, ITeamAvatar, ITournamentAvatar} from "../models/Pictires";
   providedIn: 'root'
 })
 export class UploadimagesService {
-private apiUrl = "http://localhost:5034/api/upload";
-  private banner = "http://localhost:5034/StaticFiles";
+private apiUrl = "https://localhost:7034/api/upload";
+  private banner = "https://localhost:7034/StaticFiles";
   constructor(private http: HttpClient) { }
   uploadUserBannerFile(file: File): Observable<IBanner> {
     const formData = new FormData();

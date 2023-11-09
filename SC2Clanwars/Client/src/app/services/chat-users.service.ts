@@ -15,7 +15,7 @@ export class ChatUsersService {
   public connection: HubConnection;
   private createConnection() {
     this.connection = new HubConnectionBuilder()
-      .withUrl('http://localhost:5034/chatbetweenusershub')
+      .withUrl('https://localhost:7034/chatbetweenusershub')
       .build();
   }
   constructor(private http: HttpClient) {

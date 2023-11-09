@@ -6,7 +6,7 @@ import {ILogin, IRegister, IResultSuccessLogin, IUser, ResultSuccessRegister} fr
   providedIn: 'root'
 })
 export class UsersService {
-private ApiUrl = "http://localhost:5034/api/authentication";
+private ApiUrl = "https://localhost:7034/api/authentication";
   constructor(private http: HttpClient) { }
 
   Registration(user: IRegister) {

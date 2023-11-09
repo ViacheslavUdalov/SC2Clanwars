@@ -9,7 +9,7 @@ import {BehaviorSubject, Observable, tap} from "rxjs";
 export class AllUsersDataService {
   private currentUserSource = new BehaviorSubject<IUser | null>(null);
   currentUser = this.currentUserSource.asObservable();
-  private ApiUrl: string = "http://localhost:5034/api/users";
+  private ApiUrl: string = "https://localhost:7034/api/users";
   private JWTtoken: string | null;
   private headers: HttpHeaders;
  constructor(private http: HttpClient)
@@ -39,5 +39,10 @@ export class AllUsersDataService {
   }
  UpdateDateOfUser(id: string, user: IUser) : Observable<IUser> {
    return this.http.put<IUser>(`${this.ApiUrl}/update/${id}`, user, {headers: this.headers})
+     .pipe(
+       tap((user: IUser) => {
+         this.currentUserSource.next(user);
+       })
+     );
  }
 }

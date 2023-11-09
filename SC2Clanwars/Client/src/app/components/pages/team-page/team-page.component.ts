@@ -18,6 +18,7 @@ export class TeamPageComponent implements OnInit{
   CurrentUser: IUser;
   teamPlayers: IUser[] = [];
   isUserInTeam: boolean = false;
+  isOwner: boolean = false;
   constructor(private teamService: TeamServiceService,
               private route: ActivatedRoute,
               private router: Router,
@@ -39,6 +40,9 @@ export class TeamPageComponent implements OnInit{
           if (this.team.creatorId) {
             this.allDataUser.GetOneUser(this.team.creatorId).subscribe(creatorTeam => {
               this.creatorTeam = creatorTeam;
+              if (this.creatorTeam.id == this.CurrentUser.id) {
+                this.isOwner = true;
+              }
             })
           }
         })
@@ -54,6 +58,11 @@ public JoinToTeam() {
     this.teamService.updateTeam(this.team.id, this.team).subscribe((updatedTeam: ITeam)=> {
       this.team = updatedTeam;
       this.checkForNewPlayers();
+      this.CurrentUser.userName = `<${this.team.name}>${this.CurrentUser.userName}`;
+      this.CurrentUser.team = this.team.name;
+      this.allDataUser.UpdateDateOfUser(this.userId, this.CurrentUser).subscribe(user => {
+        this.CurrentUser = user;
+      });
       this.isUserInTeam = true;
       console.log(this.team);
     })
@@ -74,5 +83,30 @@ JoinToChat() {
     }).catch((err) => {
       console.log(err);
     })
+}
+deleteTeam() {
+    this.teamService.deleteTeam(this.team.id).subscribe(() => {
+      console.log('team deleted successfully!')
+    })
+}
+updateDataOfTeam() {
+    this.router.navigate([`create-team/${this.team.id}`])
+}
+leaveFromTeam() {
+    if (this.CurrentUser.team != '') {
+      this.team.players = this.team.players.filter(playerId => playerId !== this.CurrentUser.id);
+        this.teamService.updateTeam(this.team.id, this.team).subscribe((updatedTeam: ITeam) => {
+          this.team = updatedTeam;
+          this.checkForNewPlayers();
+          this.isUserInTeam = false;
+          console.log(this.team);
+          this.CurrentUser.userName = this.CurrentUser.userName.replace(`<${this.team.name}>`, '');
+          this.CurrentUser.team = '';
+          this.allDataUser.UpdateDateOfUser(this.userId, this.CurrentUser).subscribe(user => {
+            this.CurrentUser = user;
+          });
+        })
+      }
+
 }
 }

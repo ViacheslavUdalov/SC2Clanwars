@@ -20,7 +20,6 @@
       <Folder Include="interfaces\" />
       <Folder Include="StaticFiles\Images\" />
       <Folder Include="StaticFiles\TeamsAvatar\" />
-      <Folder Include="StaticFiles\TournamentsAvatar\" />
       <Folder Include="wwwroot\" />
     </ItemGroup>
 
@@ -65,12 +64,6 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="Client\src\app\services\modal-window.service.ts">
-        <DependentUpon>get-pictures.service.ts</DependentUpon>
-      </None>
     </ItemGroup>
 
 </Project>

@@ -9,6 +9,6 @@ import {IPortraits} from "../models/Pictires";
 export class GetPicturesService {
   constructor(private http: HttpClient) { }
   GetPortraitsJson(): Observable<IPortraits[]> {
-    return this.http.get<IPortraits[]>('http://localhost:5034/assets/portraits.json');
+    return this.http.get<IPortraits[]>('https://localhost:7034/assets/portraits.json');
   }
 }

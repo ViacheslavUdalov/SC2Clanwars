@@ -23,7 +23,8 @@ export class UpdateUserPageComponent implements OnInit{
     bannerUrl: '',
     userName: '',
     id: '',
-    MainRace: ''
+    MainRace: '',
+    team: ''
   }
   selectedFile: File;
   constructor(

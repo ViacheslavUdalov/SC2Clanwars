@@ -14,5 +14,8 @@
       {{player?.userName}}
     </div>
     <button *ngIf="isUserInTeam" (click)="JoinToChat()">перейти к диалогу</button>
+    <button *ngIf="isOwner" (click)="updateDataOfTeam()">Редактировать данные команды</button>
+    <button *ngIf="isOwner" (click)="deleteTeam()">удалить</button>
+    <button *ngIf="isUserInTeam" (click)="leaveFromTeam()">Покинуть команду</button>
   </div>
 </div>

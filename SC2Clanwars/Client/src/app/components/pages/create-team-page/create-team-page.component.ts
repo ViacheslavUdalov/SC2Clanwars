@@ -6,6 +6,8 @@ import {TeamServiceService} from "../../../services/team-service.service";
 import {catchError} from "rxjs";
 import {IBanner} from "../../../models/Pictires";
 import {UploadimagesService} from "../../../services/uploadimages.service";
+import {AllUsersDataService} from "../../../services/all-users-data.service";
+import {IUser} from "../../../models/IUser";
 
 @Component({
   selector: 'app-create-team-page',
@@ -13,7 +15,6 @@ import {UploadimagesService} from "../../../services/uploadimages.service";
   styleUrls: ['./create-team-page.component.less']
 })
 export class CreateTeamPageComponent implements OnInit {
-  // teamForm: FormGroup;
   team: ITeam = {
     name: '',
     players: [],
@@ -23,40 +24,46 @@ export class CreateTeamPageComponent implements OnInit {
   };
   isCreating: boolean;
   selectedFile: File;
+userId: string;
+CurrentUser: IUser
+  teamTagName: string
   constructor(private router: Router,
               private route: ActivatedRoute,
               private teamService: TeamServiceService,
-  private fileService: UploadimagesService) {
-    // this.teamForm = this.fb.group({
-    //   name: ['', Validators.required],
-    //   avatar: [''],
-    // });
+              private fileService: UploadimagesService,
+              private updateUser: AllUsersDataService) {
+    this.userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') as string
   }
+
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const teamId = params.get("id");
-      if ( teamId) {
-        this.team.id =  teamId;
+      if (teamId) {
+        this.team.id = teamId;
         this.teamService.getOneTeam(this.team.id)
           .subscribe((loadedTeam: ITeam) => {
             this.team = loadedTeam;
+            this.teamTagName = `<${this.team.name}>`
           })
         this.isCreating = false;
       } else {
         this.isCreating = true;
       }
     })
-
-
+this.updateUser.currentUser.subscribe(user => {
+  this.CurrentUser = user as IUser;
+})
   }
-  onFileSelected(event: any):void {
+
+  onFileSelected(event: any): void {
     if (event && event.target && event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
       console.log(this.selectedFile);
       this.onUploadTeamAvatar(this.selectedFile)
     }
   }
-  onUploadTeamAvatar(file: File):void {
+
+  onUploadTeamAvatar(file: File): void {
     if (file) {
       this.fileService.uploadTeamFile(file).pipe(
         catchError((error) => {
@@ -64,16 +71,12 @@ export class CreateTeamPageComponent implements OnInit {
           return [];
         })
       ).subscribe((uploadedFile: IBanner) => {
-        // this.UploadedFile = uploadedFile.imagePath;
-        // const avatar = this.teamForm.get('avatar');
-        // if (avatar) {
-        //   avatar.setValue(uploadedFile.imagePath);
-        // }
         this.loadImage();
         console.log(uploadedFile);
       })
     }
   }
+
   loadImage(): void {
     this.fileService.getTeamAvatar(this.selectedFile.name).subscribe((imageData: Blob) => {
       const reader = new FileReader();
@@ -84,25 +87,36 @@ export class CreateTeamPageComponent implements OnInit {
       reader.readAsDataURL(imageData);
     });
   }
+
   onSubmit() {
     if (this.isCreating) {
-      // if (this.teamForm.valid) {
-      //   const teamData = this.teamForm.value;
       console.log(this.team)
-        this.teamService.createTeam(this.team)
-          .subscribe((createTeam: ITeam) => {
-              this.team = createTeam;
-              this.router.navigate([`/teams/${createTeam.id}`])
-            }
-          )
-      // }
+      this.teamService.createTeam(this.team)
+        .subscribe((createTeam: ITeam) => {
+            this.team = createTeam;
+            this.router.navigate([`/teams/${createTeam.id}`])
+          }
+        )
     } else {
-      // const {id, ...tournamentToCreate} = this.tournament;
       this.teamService.updateTeam(this.team.id, this.team)
         .subscribe((updateTeam: ITeam) => {
-          this.team = updateTeam;
+          this.team = updateTeam;;
+          // this.CurrentUser.userName = `<${this.team.name}>${this.CurrentUser.userName}`
+          //   this.CurrentUser.team = this.team.name;
+          this.team.players.forEach(playerId => {
+            this.updateUser.GetOneUser(playerId).subscribe(user => {
+              if(user.userName.includes(this.teamTagName)) {
+                user.userName = user.userName.replace(this.teamTagName, `<${updateTeam.name}>`);
+                user.team = this.team.name;
+                this.updateUser.UpdateDateOfUser(this.userId, user).subscribe(updateUser => {
+                  this.CurrentUser = updateUser;
+                })
+              }
+            })
+          })
+
           this.router.navigate([`/teams/${updateTeam.id}`])
         })
     }
-}
+  }
 }

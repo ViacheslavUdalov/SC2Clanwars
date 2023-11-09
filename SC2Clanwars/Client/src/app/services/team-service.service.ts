@@ -8,7 +8,7 @@ import {ITeam} from "../models/teamModel";
   providedIn: 'root'
 })
 export class TeamServiceService {
-private apiUrl = "http://localhost:5034/api/teams";
+private apiUrl = "https://localhost:7034/api/teams";
 private JWTtoken: string | null;
   private headers: HttpHeaders;
   constructor(private http: HttpClient) {

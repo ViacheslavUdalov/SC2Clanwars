@@ -5,7 +5,8 @@
   bannerUrl: string,
   userName: string,
   id: string,
-  MainRace: string
+  MainRace: string,
+  team: string
 }
 export interface ResultSuccessRegister {
   accessToken: string,
