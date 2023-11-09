@@ -1,0 +1,17 @@
+<form (submit)="onSubmit()">
+  <div class="form-group">
+    <label for="name">Название команды</label>
+    <input type="text" id="name" name="name"
+           [(ngModel)]="team.name" value="{{team?.name}}">
+  </div>
+  <div class="updaloader-wrapper">
+    <label for="avatar" class="file-upload-label"><i></i>{{team.avatar ? 'Загрузить другое изображение' : 'Загрузите изображение'}}</label>
+    <input type="file" id="avatar" (change)="onFileSelected($event)" style="display: none">
+    <div class="banner-wrapper">
+      <img *ngIf="team.avatar" [src]="team.avatar"  class="BannerImg">
+      <img *ngIf="!team.avatar" [src]="localImage"  class="BannerImg">
+    </div>
+  </div>
+  <button  *ngIf="isCreating" type="submit" >Создать команду</button>
+  <button *ngIf="!isCreating" type="submit" >Обновить данные команды</button>
+</form>

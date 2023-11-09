@@ -1,0 +1,111 @@
+import {Component, OnInit} from '@angular/core';
+import {TeamServiceService} from "../../../services/team-service.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ITeam} from "../../../models/teamModel";
+import {IUser} from "../../../models/IUser";
+import {AllUsersDataService} from "../../../services/all-users-data.service";
+import {ChatServiceService} from "../../../services/chat-service.service";
+
+@Component({
+  selector: 'app-team-page',
+  templateUrl: './team-page.component.html',
+  styleUrls: ['./team-page.component.less']
+})
+export class TeamPageComponent implements OnInit{
+  team: ITeam;
+  creatorTeam: IUser;
+  userId: string;
+  CurrentUser: IUser;
+  teamPlayers: IUser[] = [];
+  isUserInTeam: boolean = false;
+  isOwner: boolean = false;
+  constructor(private teamService: TeamServiceService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private allDataUser: AllUsersDataService,
+              private chatService: ChatServiceService
+  ) {
+      this.userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') as string
+  }
+  ngOnInit() {
+    this.chatService.start();
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      console.log(id)
+      if (id) {
+        this.teamService.getOneTeam(id).subscribe(team => {
+          this.team = team;
+          if (this.team.creatorId == this.userId) {
+            this.isOwner = true;
+          }
+          console.log(this.team);
+          this.checkForNewPlayers();
+          if (this.team.creatorId) {
+            this.allDataUser.GetOneUser(this.team.creatorId).subscribe(creatorTeam => {
+              this.creatorTeam = creatorTeam;
+            })
+          }
+        })
+      }
+    })
+
+    this.allDataUser.currentUser.subscribe(currentUser => {
+      this.CurrentUser = currentUser as IUser;
+    })
+  }
+public JoinToTeam() {
+    this.team.players.push(this.CurrentUser.id);
+    this.teamService.updateTeam(this.team.id, this.team).subscribe((updatedTeam: ITeam)=> {
+      this.team = updatedTeam;
+      this.allDataUser.GetOneUser(this.userId).subscribe(user => {
+        this.CurrentUser.userName = `<${this.team.name}>${this.CurrentUser.userName}`;
+        this.CurrentUser.team = this.team.name;
+        this.allDataUser.UpdateDateOfUser(this.userId, this.CurrentUser).subscribe(user => {
+          this.CurrentUser = user;
+        })
+      })
+      this.checkForNewPlayers();
+      this.isUserInTeam = true;
+      console.log(this.team);
+    })
+}
+checkForNewPlayers() {
+      this.team.players.forEach(playerId => {
+        this.allDataUser.GetOneUser(playerId).subscribe(player => {
+          this.teamPlayers.push(player);
+          if (this.team.players.includes(this.CurrentUser.id)) {
+            this.isUserInTeam = true;
+          }
+        })
+      })
+}
+JoinToChat() {
+    this.chatService.joinRoom(this.CurrentUser.userName, this.team.name).then(() => {
+      this.router.navigate([`team/${this.team.id}/chat`]);
+    }).catch((err) => {
+      console.log(err);
+    })
+}
+leaveFromTeam() {
+if (this.CurrentUser.team !== '') {
+  this.team.players = this.team.players.filter(playerId => playerId !== this.CurrentUser.id);
+  this.teamService.updateTeam(this.team.id, this.team).subscribe(updatedTeam => {
+    this.team = updatedTeam;
+    this.checkForNewPlayers();
+    this.isUserInTeam = false;
+    this.CurrentUser.userName = this.CurrentUser.userName.replace(`<${this.team.name}>`, '')
+  this.CurrentUser.team = '';
+    this.allDataUser.UpdateDateOfUser(this.userId, this.CurrentUser).subscribe(updatedUser => {
+      this.CurrentUser = updatedUser;
+    })
+  })
+}
+
+}
+updateDataTeam() {
+    this.router.navigate([`/create-team/${this.team.id}`]);
+}
+deleteTeam() {
+    this.teamService.deleteTeam(this.team.id);
+}
+}

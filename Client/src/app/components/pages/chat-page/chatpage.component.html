@@ -1,0 +1,14 @@
+<div>
+  <span *ngIf="!ReceivedMessages || ReceivedMessages.length === 0 "> Здесь пока ещё нет никаких сообщений, вы можете начать диалог</span>
+  <div *ngFor="let message of ReceivedMessages">
+    <span >{{ message.user }}</span>
+    <span >{{ message.message }}</span>
+
+  </div>
+</div>
+
+<div>
+  <h2>Send a Message:</h2>
+  <input [(ngModel)]="messageToSend" placeholder="Type a message" />
+  <button (click)="sendMessage()">Send</button>
+</div>
