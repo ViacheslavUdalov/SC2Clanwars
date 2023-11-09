@@ -67,10 +67,4 @@
       </Content>
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="Client\src\app\services\modal-window.service.ts">
-        <DependentUpon>get-pictures.service.ts</DependentUpon>
-      </None>
-    </ItemGroup>
-
 </Project>
