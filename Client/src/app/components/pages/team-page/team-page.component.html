@@ -1,0 +1,20 @@
+  <app-loading *ngIf="!team"></app-loading>
+<div class="Container">
+  <div>
+    <div>
+    <h2>
+      {{team?.name}}
+    </h2>
+      <img [src]="team?.avatar">
+    </div>
+    <span>Создатель:<a [routerLink]="['/users', team.creatorId]"> {{creatorTeam?.userName}}</a></span>
+    <button *ngIf="!isUserInTeam" (click)="JoinToTeam()">Вступить в команду</button>
+    <div *ngFor="let player of teamPlayers">
+      {{player?.userName}}
+    </div>
+    <button class="button" *ngIf="isUserInTeam" (click)="JoinToChat()">перейти к диалогу</button>
+    <button class="button" *ngIf="isOwner" (click)="updateDataOfTeam()">Редактировать данные команды</button>
+    <button class="button" *ngIf="isOwner" (click)="deleteTeam()">удалить</button>
+    <button class="button" *ngIf="isUserInTeam" (click)="leaveFromTeam()">Покинуть команду</button>
+  </div>
+</div>

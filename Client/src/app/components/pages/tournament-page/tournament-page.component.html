@@ -1,0 +1,20 @@
+<app-loading *ngIf="!tournament && !creatorTournament"></app-loading>
+<div class="Container">
+<div *ngIf="tournament">
+  <h2>{{tournament.name}}</h2>
+
+  <img [src]="tournament.avatar"/>
+  <span>{{tournament.prizePool }}</span>
+  <div *ngIf="tournament.creatorId == creatorTournament?.id">
+    <button (click)="RemoveTournament(tournament.id)">Удалить</button>
+    <button [routerLink]="['/create-tournament/', tournament.id]">Обновить турнир</button>
+
+
+  </div>
+  <div class="creatorTournament" *ngIf="creatorTournament">
+    <span>создатель</span>
+    <a [routerLink]="['/users/', creatorTournament.id]" >{{creatorTournament?.userName}}</a>
+    <span>{{creatorTournament?.email}}</span>
+  </div>
+</div>
+</div>

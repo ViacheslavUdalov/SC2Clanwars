@@ -21,14 +21,14 @@ public class TournamentDbModel
     public string? PrizePool { get; set; } = string.Empty;
 
     [BsonElement("Teams")]
-    [BsonRepresentation(BsonType.ObjectId)]
+    [BsonRepresentation(BsonType.String)]
     public HashSet<string>? Teams { get; set; }
     
     [BsonElement("Avatar")]
     public string? Avatar { get; set; } = string.Empty;
     
     [BsonElement("Players")]
-    [BsonRepresentation(BsonType.ObjectId)] 
+    [BsonRepresentation(BsonType.String)] 
     public HashSet<string>? Players { get; set; }
     
     [BsonElement("CreatorId")]

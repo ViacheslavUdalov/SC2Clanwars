@@ -26,6 +26,7 @@ export class UpdateUserPageComponent implements OnInit{
     MainRace: '',
     team: ''
   }
+  UserName: string;
   selectedFile: File;
   constructor(
     private userDataService: AllUsersDataService,
@@ -41,14 +42,18 @@ ngOnInit() {
   if (this.UserId) {
     this.userDataService.GetOneCurrentOwnerUser(this.UserId).subscribe(currentUser => {
 this.CurrentUser = currentUser;
+this.UserName = currentUser.userName;
+      if (this.UserName.includes(`<${this.CurrentUser.team}>`)) {
+        this.UserName =this.UserName.replace(`<${this.CurrentUser.team}>`, '')
+      }
       console.log(currentUser);
     });
   }
   // реализуем получение данных из корневого json файла в сервисе
   this.getPicturesService.GetPortraitsJson().subscribe((data: IPortraits[]) => {
     this.Portraits = data;
-    // console.log(data);
   });
+
 }
 onFileSelected(event: any):void {
         if (event && event.target && event.target.files.length > 0) {
@@ -84,6 +89,7 @@ this.CurrentUser.portraitUrl = portrait.url;
     console.log(portrait)
   }
   onSubmit() {
+    this.CurrentUser.userName = `<${this.CurrentUser.team}>${this.UserName}`;
 this.userDataService.UpdateDateOfUser(this.CurrentUser.id, this.CurrentUser).subscribe((updatedUser: IUser) => {
   this.CurrentUser = updatedUser;
 })
