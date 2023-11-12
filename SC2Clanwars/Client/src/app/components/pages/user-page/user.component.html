@@ -1,0 +1,21 @@
+<app-loading *ngIf="!user"></app-loading>
+<div class="user-page-container">
+  <div class="wrapper-user-data">
+    <div class="images">
+      <div class="wrapper-user-portrait">
+  <img src="{{user?.portraitUrl}}" class="user-portrait"/>
+      </div>
+    <div class="user-banner-wrapper">
+  <img src="{{user?.bannerUrl}}" class="user-banner"/>
+    </div>
+    </div>
+    <h1 class="user-page-name">{{user?.userName}}</h1>
+    <span class="fullName-user">Полное Имя: {{user?.fullName}} </span><br/>
+    <span>Команда: {{user.team}}</span><br/>
+    <span>Раса: {{user.MainRace}}</span><br/>
+    <span>email: {{user.email}}</span><br/>
+    <button *ngIf="!isOwner" (click)="GoToChatWithUser()">go to chat</button>
+  <button class="update-button" *ngIf="isOwner" [routerLink]="['/update-user/', user?.id]">Редактировать</button>
+  </div>
+
+  </div>

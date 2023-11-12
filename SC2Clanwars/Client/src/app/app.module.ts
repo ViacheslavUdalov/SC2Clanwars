@@ -26,7 +26,6 @@ import { ChatPageComponent } from './components/pages/chat-page/chatpage.compone
 import { ChatUsersPageComponent } from './components/pages/chat-users-page/chat-users-page.component';
 import {FooterComponent} from "./components/pages/footer-page/footer.component";
 import { LoadingComponent } from './Helpers/loading/loading.component';
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -12,13 +12,16 @@ import {IUser} from "../../../models/IUser";
 })
 export class TournamentPageComponent implements OnInit{
 tournament: ITournament;
+  LocalId: string
 creatorTournament: IUser | null;
   constructor(
     private tournamentsService : TournamentsService,
   private route : ActivatedRoute,
     private router: Router,
     private allUserData: AllUsersDataService
-  ) {}
+  ) {
+    this.LocalId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || '';
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {

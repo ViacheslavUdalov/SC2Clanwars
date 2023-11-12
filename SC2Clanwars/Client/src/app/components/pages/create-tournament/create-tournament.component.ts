@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ITournament} from "../../../models/tournamentModel";
 import {ActivatedRoute, Router} from '@angular/router';
 import {TournamentsService} from "../../../services/tournaments.service";
-import {AllUsersDataService} from "../../../services/all-users-data.service";
 import {UploadimagesService} from "../../../services/uploadimages.service";
 @Component({
   selector: 'app-create-tournament',

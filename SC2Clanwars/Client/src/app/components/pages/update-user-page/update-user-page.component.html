@@ -31,7 +31,10 @@
                value="{{CurrentUser?.MainRace}}"
         >
       </div>
-      <input type="file"  (change)="onFileSelected($event)">
+      <div class="file-input-wrapper">
+        <label class="file-input-label" for="fileInput">{{CurrentUser.bannerUrl ? 'Выбрать другой файл' : 'Выбрать файл'}}</label>
+      <input type="file" id="fileInput" class="file-input" (change)="onFileSelected($event)">
+      </div>
       <div class="banner-wrapper">
       <img *ngIf="CurrentUser.bannerUrl" [src]="CurrentUser.bannerUrl" class="BannerImg">
       </div>
