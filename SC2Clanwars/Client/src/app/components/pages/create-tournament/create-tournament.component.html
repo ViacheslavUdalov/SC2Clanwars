@@ -2,12 +2,12 @@
   <div class="main-container">
     <form (submit)="onSubmit()">
   <div class="form-group">
-    <label for="name">Tournament Name:</label>
-    <input type="text" id="name" name="name" [(ngModel)] = "tournament.name" value="{{tournament?.name}}" required >
+    <label for="name">Tournament Name:</label><br/>
+    <input type="text" id="name" name="name" [(ngModel)] = "tournament.name" value="{{tournament?.name}}" required class="input">
   </div>
   <div class="form-group">
-    <label for="prizePool">Prize Pool:</label>
-    <input type="text" id="prizePool" name="prizePool" [(ngModel)] = "tournament.prizePool" value="{{tournament?.prizePool}}">
+    <label for="prizePool">Prize Pool:</label><br/>
+    <input type="text" id="prizePool" name="prizePool" [(ngModel)] = "tournament.prizePool" value="{{tournament?.prizePool}}" class="input">
   </div>
   <div class="file-input-wrapper">
     <label for="avatar" class="file-input-label">{{tournament.avatar ? 'Выбрать другой файл' : 'Выбрать файл'}}</label>

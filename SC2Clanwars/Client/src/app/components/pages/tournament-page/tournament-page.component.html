@@ -1,18 +1,23 @@
 <app-loading *ngIf="!tournament && !creatorTournament"></app-loading>
 <div class="Container">
-<div *ngIf="tournament">
+<div *ngIf="tournament" class="main">
+  <img [src]="tournament.avatar" class="avatar"/>
   <h2>{{tournament.name}}</h2>
-
-  <img [src]="tournament.avatar"/>
-  <span>{{tournament.prizePool}}</span>
-  <div *ngIf="tournament.creatorId == creatorTournament?.id">
-    <button *ngIf="LocalId == creatorTournament?.id" (click)="RemoveTournament(tournament.id)">Удалить</button>
-    <button *ngIf="LocalId == creatorTournament?.id" [routerLink]="['/create-tournament/', tournament.id]">Обновить турнир</button>
+  <span class="prize-pool">Призовой фонд: {{tournament.prizePool}}</span>
+  <div class="buttons" *ngIf="tournament.creatorId == creatorTournament?.id">
+    <button class="button" *ngIf="LocalId == creatorTournament?.id" (click)="RemoveTournament(tournament.id)">Удалить</button>
+    <button class="button" *ngIf="LocalId == creatorTournament?.id" [routerLink]="['/create-tournament/', tournament.id]">Обновить турнир</button>
+  </div>
+  <div *ngIf="!isUserInTournament">
+  <button *ngIf="tournament.creatorId != LocalId " (click)="JoinToTournament(tournament.id)">Участвовать</button>
   </div>
   <div class="creatorTournament" *ngIf="creatorTournament">
-    <span>создатель</span>
-    <a [routerLink]="['/users/', creatorTournament.id]" >{{creatorTournament?.userName}}</a>
+    <span>Создатель: </span>
+    <a [routerLink]="['/users/', creatorTournament.id]" class="creator-tournament">{{creatorTournament?.userName}}</a>
     <span>{{creatorTournament?.email}}</span>
+  </div>
+  <div *ngFor="let player of tournamentPlayers">
+    {{player.userName}}
   </div>
 </div>
 </div>

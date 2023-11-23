@@ -1,5 +1,5 @@
 <app-loading *ngIf="!user"></app-loading>
-<div class="user-page-container">
+<div *ngIf="user" class="user-page-container">
   <div class="wrapper-user-data">
     <div class="images">
       <div class="wrapper-user-portrait">

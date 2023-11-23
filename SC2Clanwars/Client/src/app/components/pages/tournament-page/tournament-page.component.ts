@@ -14,6 +14,8 @@ export class TournamentPageComponent implements OnInit{
 tournament: ITournament;
   LocalId: string
 creatorTournament: IUser | null;
+  tournamentPlayers: IUser[] = [];
+  isUserInTournament: boolean = false;
   constructor(
     private tournamentsService : TournamentsService,
   private route : ActivatedRoute,
@@ -30,6 +32,7 @@ creatorTournament: IUser | null;
       if (id) {
         this.tournamentsService.getOneTournament(id).subscribe(tournaments => {
           this.tournament = tournaments;
+          this.checkForNewPlayers();
           console.log(this.tournament)
           if (this.tournament.creatorId) {
             this.allUserData.currentUser.subscribe(currentIUser => {
@@ -46,4 +49,22 @@ creatorTournament: IUser | null;
    })
 
  }
+ JoinToTournament(id: string) {
+    this.tournament.players.push(this.LocalId);
+   this.tournamentsService.updateTournament(id, this.tournament).subscribe(updatedTournament => {
+     this.tournament = updatedTournament;
+     this.checkForNewPlayers();
+     console.log(this.tournament)
+   })
+ }
+  checkForNewPlayers() {
+    this.tournament.players.forEach(playerId => {
+      this.allUserData.GetOneUser(playerId).subscribe(player => {
+        this.tournamentPlayers.push(player);
+        if (this.tournament.players.includes(this.LocalId)) {
+          this.isUserInTournament = true;
+        }
+      })
+    })
+  }
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AllUsersDataService} from "../../../services/all-users-data.service";
 import {ActivatedRoute} from "@angular/router";
 import {GetPicturesService} from "../../../services/get-pictures.service";
@@ -7,6 +7,7 @@ import {HttpClient, HttpEventType} from "@angular/common/http";
 import {IUser} from "../../../models/IUser";
 import {UploadimagesService} from "../../../services/uploadimages.service";
 import {catchError} from "rxjs";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-update-user-page',
@@ -16,6 +17,11 @@ import {catchError} from "rxjs";
 export class UpdateUserPageComponent implements OnInit{
   UserId: string | null;
   Portraits: IPortraits[];
+   races  = [
+    {race: 'terran'},
+    {race: 'zerg'},
+    {race: 'protoss'}
+  ];
   CurrentUser: IUser = {
     fullName: '',
     email: '',
@@ -42,20 +48,21 @@ ngOnInit() {
   if (this.UserId) {
     this.userDataService.GetOneCurrentOwnerUser(this.UserId).subscribe(currentUser => {
 this.CurrentUser = currentUser;
+      // this.race = currentUser.MainRace;
+      console.log(this.CurrentUser);
 this.UserName = currentUser.userName;
       if (this.UserName.includes(`<${this.CurrentUser.team}>`)) {
         this.UserName =this.UserName.replace(`<${this.CurrentUser.team}>`, '')
       }
-      console.log(currentUser);
     });
+
   }
   // реализуем получение данных из корневого json файла в сервисе
   this.getPicturesService.GetPortraitsJson().subscribe((data: IPortraits[]) => {
     this.Portraits = data;
   });
-
 }
-onFileSelected(event: any):void {
+  onFileSelected(event: any):void {
         if (event && event.target && event.target.files.length > 0) {
         this.selectedFile = event.target.files[0];
         console.log(this.selectedFile);
@@ -89,10 +96,18 @@ this.CurrentUser.portraitUrl = portrait.url;
     console.log(portrait)
   }
   onSubmit() {
-    this.CurrentUser.userName = `<${this.CurrentUser.team}>${this.UserName}`;
+    if (this.CurrentUser.team != '') {
+      this.CurrentUser.userName = `<${this.CurrentUser.team}>${this.UserName}`;
+    }
 this.userDataService.UpdateDateOfUser(this.CurrentUser.id, this.CurrentUser).subscribe((updatedUser: IUser) => {
   this.CurrentUser = updatedUser;
+  console.log(this.CurrentUser)
 })
   }
+
+  onMainRaceChange(newValue: string) {
+    this.CurrentUser.MainRace = newValue;
+  }
+  protected readonly String = String;
 }
 

@@ -25,11 +25,12 @@
         >
       </div>
       <div class="form-group">
-        <label for="MainRace">Основная раса</label>
-        <input type="text" id="MainRace" name="MainRace"
-               [(ngModel)]="CurrentUser.MainRace"
-               value="{{CurrentUser?.MainRace}}"
-        >
+        <label for="mainRace">Ваша раса</label>
+        <select [(ngModel)]="CurrentUser.MainRace" id="mainRace" name="mainRace" (ngModelChange)="onMainRaceChange($event)">
+          <option  *ngFor="let race of races" [ngValue]="race.race"
+                   [selected]="race.race == CurrentUser.MainRace || (!race.race && !CurrentUser.MainRace)">{{race.race}}</option>
+        </select>
+<!--        <span>{{selectedRace.value | json}}</span>-->
       </div>
       <div class="file-input-wrapper">
         <label class="file-input-label" for="fileInput">{{CurrentUser.bannerUrl ? 'Выбрать другой файл' : 'Выбрать файл'}}</label>

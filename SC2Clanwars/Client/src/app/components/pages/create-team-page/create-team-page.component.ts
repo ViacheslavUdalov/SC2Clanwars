@@ -100,7 +100,7 @@ this.updateUser.currentUser.subscribe(user => {
     } else {
       this.teamService.updateTeam(this.team.id, this.team)
         .subscribe((updateTeam: ITeam) => {
-          this.team = updateTeam;;
+          this.team = updateTeam;
           // this.CurrentUser.userName = `<${this.team.name}>${this.CurrentUser.userName}`
           //   this.CurrentUser.team = this.team.name;
           this.team.players.forEach(playerId => {

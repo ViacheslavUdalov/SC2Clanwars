@@ -1,10 +1,11 @@
 <app-loading *ngIf="!teams"></app-loading>
-<div>
-  <div>
-    <div *ngFor="let team of teams">
-      <a [routerLink]="['/teams', team.id]"><h3>{{team.name}}</h3></a>
-      <img [src]="team.avatar">
-
+<div class="Container">
+  <div class="main-container">
+    <div *ngFor="let team of teams" class="team-data">
+      <div class="team-flex" [routerLink]="['/teams', team.id]">
+      <img [src]="team.avatar" class="team-avatar">
+      <a  class="link-name"><h3>{{team.name}}</h3></a>
+      </div>
     </div>
   </div>
 </div>
